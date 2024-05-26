@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth
+      - user
+
+  auth:
+    build:
+      context: ./services/auth
+    ports:
+      - "5001:5001"
+
+  user:
+    build:
+      context: ./services/user
+    ports:
+      - "5002:5002"
