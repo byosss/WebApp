@@ -1,0 +1,29 @@
+# Fichiers de compilation et de build
+*.o
+*.out
+*.exe
+/build/
+/dist/
+
+# Fichiers système
+.DS_Store
+.vscode/
+.idea/
+
+# Fichiers de sauvegarde
+*~
+.*.swp
+
+# Dépendances externes
+node_modules/
+vendor/
+
+# Fichiers sensibles
+.env
+secrets.txt
+
+# Fichiers de logs
+*.log
+
+# Dossier data spécifique pour Docker volumes
+Backend/data/

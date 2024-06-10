@@ -1,0 +1,28 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - login-register
+
+  login-register:
+    build:
+      context: ./services/login-register
+    expose:
+      - "5000:5000"
+    restart: always
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 3
+
+  
+  mongo:
+    image: mongo
+    expose:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    command: mongod --quiet --logpath /dev/null
