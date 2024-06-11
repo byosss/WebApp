@@ -1,24 +1,37 @@
 services:
-  gateway:
-    build:
-      context: ./gateway
-    ports:
-      - "5000:5000"
-    depends_on:
-      - login-register
 
-  login-register:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth
+      - order
+
+  auth:
     build:
-      context: ./services/login-register
+      context: ./services/auth
     expose:
       - "5000:5000"
     restart: always
     depends_on:
       - mongo
     deploy:
-      replicas: 3
+      replicas: 2
+    
+  order:
+    build:
+      context: ./services/order
+    expose:
+      - "5000:5000"
+    restart: always
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 2
 
-  
   mongo:
     image: mongo
     expose:

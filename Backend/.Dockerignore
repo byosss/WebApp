@@ -1,0 +1,16 @@
+# Fichiers et dossiers spécifiques à ignorer pour le conteneur Docker
+
+# Dossiers Node.js
+node_modules/
+
+# Fichiers de configuration NPM
+package-lock.json
+npm-debug.log
+
+# Fichiers spécifiques à Nginx
+nginx.conf
+nginx.pid
+
+# Fichiers de logs
+logs/
+*.log
