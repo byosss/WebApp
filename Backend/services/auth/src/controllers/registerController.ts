@@ -5,44 +5,39 @@ import UserModel, { IUser }  from '../models/userModel';
 
 const registerController = async (req: Request, res: Response) => {
 
-    // Créer une nouvelle instance d'utilisateur avec les données de req.body
+    // Create a new user instance
     const newUser: IUser = new UserModel(req.body);
 
+    // Validate the user data
     try {
-        // Valider l'instance d'utilisateur avec Mongoose
         await newUser.validate();
     } catch (error) {
-        return res.status(400).json({ error: 'Erreur de validation des données' });
+        return res.status(400).json({ error: 'Error while validation of the data' });
     }
 
     try {
-        // Vérifier si l'email est déjà utilisé
+        // Check if the user already exists
         const existingUser = await UserModel.findOne({ email: newUser.email }).select('-_id email');
         if (existingUser) {
-            return res.status(401).json({ error: 'Cet email est déjà utilisé.' });
+            return res.status(401).json({ error: 'Email already used' });
         }
 
-        // Crypter le mot de passe
+        // Crypt the password
         const hashedPassword = await bcrypt.hash(newUser.password, 10);
         newUser.password = hashedPassword;
 
-        // Sauvegarder l'utilisateur dans la base de données
+        // Save the user
         await newUser.save();
 
-        // Générer un token JWT
-        const token = jwt.sign(
-            { email: newUser.email },
-            process.env.JWT_SECRET as string,
-            { expiresIn: '1h' }
-        );
+        // Generate a JWT token
+        const token = jwt.sign({ id: newUser.id, role: newUser.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-        // Répondre avec succès
-        res.status(201).json({ msg: 'Utilisateur enregistré avec succès',
-                               token: token }
+        // Reply successfully
+        res.status(201).json({ msg: 'User registered successfully', token: token }
         );
     } catch (error) {
-        // Si une erreur se produit pendant la validation, la recherche ou la sauvegarde, renvoyez une réponse d'erreur
-        res.status(500).json({ error: 'Une erreur s\'est produite lors du traitement de votre demande.' });
+        // If an error occurs during validation, search, or save, return an error response
+        res.status(500).json({ error: 'An error occurred while processing your request' });
     }
 };
 
