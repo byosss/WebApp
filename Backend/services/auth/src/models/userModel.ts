@@ -5,6 +5,7 @@ export interface IUser extends Document {
     lastName: string;
     email: string;
     password: string;
+    role: string;
 }
 
 const userSchema = new Schema<IUser>({
@@ -23,6 +24,10 @@ const userSchema = new Schema<IUser>({
         match: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
     },
     password: {
+        type: String,
+        required: true
+    },
+    role: {
         type: String,
         required: true
     }
