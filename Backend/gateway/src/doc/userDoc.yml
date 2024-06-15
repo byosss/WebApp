@@ -1,0 +1,64 @@
+paths:
+  /api/users/login:
+    post:
+      tags:
+        - users
+      description: Authenticate a user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        '200':
+          description: Successful login
+        '401':
+          description: Invalid credentials
+        '500':
+          description: Server Error
+
+
+  /api/users/register:
+    post:
+      tags:
+        - users
+      description: Register a new user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: Jean
+                lastName:
+                  type: string
+                  example: Dupont
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: password123
+                role:
+                  type: string
+                  example: client
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Validation error or email already used
+        '500':
+          description: Server Error

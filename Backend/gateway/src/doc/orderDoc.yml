@@ -1,0 +1,11 @@
+paths:
+  /api/orders:
+    get:
+      tags:
+        - orders
+      description: Get all orders
+      responses:
+        '200':
+          description: Successful request
+        '500':
+          description: Server Error
