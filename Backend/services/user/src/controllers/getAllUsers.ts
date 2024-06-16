@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const getAllUsers = async (req: Request, res: Response) => {
 
-    if (req.cookies.userRole !== 'comm') {
+    const token = req.header('Authorization')?.replace('Bearer ', '') || '';
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+
+    if (decoded.role !== 'comm') {
         return res.status(403).json({ msg: 'You are not authorized to access this route' });
     }
     

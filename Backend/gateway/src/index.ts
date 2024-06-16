@@ -23,8 +23,6 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.use('/api', authHandler, (req: Request, res: Response) => {
-    // Redirect the request to the appropriate service
-    console.log('Redirecting to http://localhost:8080/api' + req.url);
     res.redirect(307, 'http://localhost:8080/api' + req.url);
 });
 
