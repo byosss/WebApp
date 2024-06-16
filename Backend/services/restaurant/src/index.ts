@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import usersRoute from './routes/usersRoute';
+import restaurantRoute from './routes/restaurantRoute';
 import initDB from './models/initDB';
 
 require('dotenv').config();
@@ -18,12 +18,16 @@ mongoose.connect(process.env.MONGO_URI as string)
 .then(() => initDB())
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
+// Home route
+app.get('/', (req, res) => {
+    res.status(200).json({ msg: 'Restaurant service is running'});
+});
 
-// Routes pour l'authentification
-app.use('/users', usersRoute);
+// Routes for restaurants
+app.use('/restaurants', restaurantRoute);
 
-// Démarrer le serveur sur le port 5000
+// Start the server on port 5000
 const PORT = 5000;
 app.listen(PORT, () => {
-    console.log(`Users service is running`);
+    console.log(`Restaurant service is running`);
 });
