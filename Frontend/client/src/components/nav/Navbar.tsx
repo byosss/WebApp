@@ -1,13 +1,14 @@
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import PersonIcon from '@mui/icons-material/Person';
-import { Button, Grid, Toolbar, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import { styled, alpha, createTheme, ThemeProvider } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom"; 
+import { useState } from "react";
 
 const navTheme = createTheme({
     palette: {
@@ -56,8 +57,17 @@ const Search = styled("div")(({ theme }) => ({
   }));
 
 export default function MenuAppBar() {
-
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [dialDelete, setDialDelete] = useState(false);
   const navigate = useNavigate();
+
+  const openDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
+
+  const handleCloseDial = (open: boolean) => () => {
+    setDialDelete(open);
+  };
 
   return (
     <ThemeProvider theme={navTheme}>
@@ -107,12 +117,78 @@ export default function MenuAppBar() {
                             <Button onClick={ () => navigate('/')} sx={{ color: '#757575'}}>Commandes</Button>
                         </Grid>
                         <Grid item xs={1} sx={{ display: 'Flex', justifyContent: 'space-around'}}>
+                          <Tooltip title="Panier">
                             <IconButton color="default" aria-label="menu">
                                 <ShoppingCartRoundedIcon />
                             </IconButton>
-                            <IconButton color="default" aria-label="menu">
+                          </Tooltip>
+                          <Tooltip title="Compte">
+                            <IconButton onClick={openDrawer(true)} color="default" aria-label="menu">
                                 <PersonIcon />
                             </IconButton> 
+                          </Tooltip>
+
+                          <Drawer anchor="right" open={drawerOpen} onClose={openDrawer(false)}>
+                          <Grid container
+                              spacing={2}
+                              sx={{
+                                width: '25em',
+                                padding: 3,
+                                justifyContent: 'center',
+                                direction: 'column',
+                                flexWrap: 'wrap',
+                              }}
+                            >
+                              <Grid item xs={12} sx={{ pt: 6, pb:2 }}>
+                                <Typography align="center" variant="h4" >Mon Compte</Typography>
+                              </Grid>
+                              <Grid item xs={12} sx={{ py: 3, textAlign: 'center' }}>
+                                <Typography align="center" variant="h6">Nom et prénom</Typography>
+                                <Button  size="small" variant="text">Modifier le compte</Button>
+                              </Grid>
+                              <Grid item xs={12} >
+                                <Typography variant="h6">Numéro de téléphone</Typography>
+                                <TextField fullWidth variant="standard" disabled defaultValue={"+33.6.00.00.00.00"}/>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6">Adresse mail</Typography>
+                                <TextField fullWidth variant="standard" disabled defaultValue={"prenom.nom@vraiesi.fr"}/>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6">Adresse de livraison</Typography>
+                                <TextField fullWidth variant="standard" disabled defaultValue={"48 Rue du jardin, 67000 Strasbourg, France"}/>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="h6">Code de parainnage</Typography>
+                                <TextField fullWidth variant="standard" disabled defaultValue={"HF40CD5"}/>
+                              </Grid>
+                              <Grid item xs={12} sx={{ mt: 10 }}>
+                                <Button sx={{ my: 2}} fullWidth variant="contained" color="primary">Déconnexion</Button>
+                                <Button fullWidth onClick={handleCloseDial(true)} variant="outlined" color="error">Supprimer le compte</Button>
+                              </Grid>
+                            </Grid>
+                          </Drawer>
+                          <Dialog
+                            open={dialDelete}
+                            onClose={handleCloseDial}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              {"Etes-vous sur de supprimer votre compte ?"}
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                Une fois supprimé il ne sera pas possible de récupérer votre compte
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleCloseDial(false)}>Annuler</Button>
+                              <Button variant="contained" color="error" onClick={handleCloseDial(false)} autoFocus>
+                                Supprimer
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
                         </Grid>
                     </Grid>
                 </Toolbar>

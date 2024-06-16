@@ -1,4 +1,4 @@
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -41,29 +41,36 @@ export default function CategoryTree() {
     };
 
     return (
-            <Box sx={{ px:5 }}>
+            <Box sx={{ px:5, justifyContent: 'center'  }}>
                 <Slider {...settings}>
-                    <Avatar alt='pizza' >
-                        <h3>1 SLIDE</h3>
-                    </Avatar>
-                    <div>
-                        <h3>2 SLIDE</h3>
-                    </div>
-                    <div>
-                        <h3>3 SLIDE</h3>
-                    </div>
-                    <div>
-                        <h3>4 SLIDE</h3>
-                    </div>
-                    <div>
-                        <h3>5 SLIDE</h3>
-                    </div>
-                    <div>
-                        <h3>6 SLIDE</h3>
-                    </div>
-                    <div>
-                        <h3>7 SLIDE</h3>
-                    </div>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block'}}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
+                    <Box sx={{ display: 'block' }}>
+                        <Avatar alt='pizza' src={pizzaCat}/>
+                        <Typography>Pizza</Typography>
+                    </Box>
                 </Slider>
             </Box>
     )
