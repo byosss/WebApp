@@ -8,18 +8,21 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import { Alert } from '@mui/material';
 
 
 export default function Register() {
     const queryClient = useQueryClient()
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [phone, setPhone] = useState('')
     const [email, setEmail] = useState('')
+    const [deliveryAddress, setDeliveryAddress] = useState('')
     const [password, setPassword] = useState('')
 
-    const registerUser = async (userData: { firstName: string; lastName: string; email: string; password: string }) => {
+    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string }) => {
         const response = await axios.post('http://localhost/users/register', userData);
-        console.log(response.data);
+        console.log('reponse log:', response.data);
         return response.data;
     };
 
@@ -34,7 +37,9 @@ export default function Register() {
         const userData = {
             firstName: formData.get('firstName') as string,
             lastName: formData.get('lastName') as string,
+            phone: formData.get('phone') as string,
             email: formData.get('email') as string,
+            deliveryAddress: formData.get('deliveryAddress') as string,
             password: formData.get('password') as string,
         };
 
@@ -69,35 +74,47 @@ export default function Register() {
                 alignItems: 'center',
                 }}
             >
-                <Box sx={{ mb: 1 }}>
+                <Box sx={{ mb: 1, display: 'flex' }}>
                     <img src='/logoCE100.png' alt='Logo'/>
+                    <Typography component="h1" variant="h4" sx={{ alignContent: 'center', fontWeight: 'bold' }}>Cesi Eat</Typography>
                 </Box>
                 <Typography component="h1" variant="h5">
                     Create an account
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="First name"
-                            onChange={e => setFirstName(e.target.value)}
-                            value={firstName}
-                            name="firstName"
-                            autoComplete="First name"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="Last name"
-                            onChange={e => setLastName(e.target.value)}
-                            value={lastName}
-                            name="lastName"
-                            autoComplete="Last name"
-                            autoFocus
-                        />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="First name"
+                        onChange={e => setFirstName(e.target.value)}
+                        value={firstName}
+                        name="firstName"
+                        autoComplete="First name"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Last name"
+                        onChange={e => setLastName(e.target.value)}
+                        value={lastName}
+                        name="lastName"
+                        autoComplete="Last name"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Phone number"
+                        onChange={e => setPhone(e.target.value)}
+                        value={phone}
+                        name="phone"
+                        autoComplete="Phone number"
+                        autoFocus
+                    />
                     <TextField
                         margin="normal"
                         required
@@ -108,6 +125,17 @@ export default function Register() {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                    />
+                    <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Delivery address"
+                            onChange={e => setDeliveryAddress(e.target.value)}
+                            value={deliveryAddress}
+                            name="deliveryAddress"
+                            autoComplete="Delivery address"
+                            autoFocus
                     />
                     <TextField
                         margin="normal"
@@ -124,7 +152,8 @@ export default function Register() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        color='primary'
+                        sx={{ mt: 3, mb: 2, p:2}}
                     >
                         Sign Up
                     </Button>
@@ -137,6 +166,8 @@ export default function Register() {
                         </Link>
                         </Grid>
                     </Grid>
+
+                    {mutation.isError && <Alert severity="error">Registration failed</Alert>}
 
                 </form>
             </Box>
