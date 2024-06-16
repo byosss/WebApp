@@ -4,14 +4,14 @@ const users: Partial<IUser>[] = [
     {
         firstName: 'John',
         lastName: 'Doe',
-        email: 'John@gmail.com',
+        email: 'john@gmail.com',
         password: 'password',
         role: 'client'
     },
     {
         firstName: 'Jane',
         lastName: 'Doe',
-        email: 'Jane@gmail.com',
+        email: 'jane@gmail.com',
         password: 'password',
         role: 'restorer'
     }
