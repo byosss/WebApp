@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import usersRoute from './routes/usersRoute';
@@ -10,6 +11,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 // Connexion à la base de données MongoDb

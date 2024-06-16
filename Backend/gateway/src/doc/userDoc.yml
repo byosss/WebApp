@@ -31,30 +31,26 @@ paths:
     post:
       tags:
         - users
-      description: Register a new user and generate JWT token
+      description: Register a new user
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                  example: Jean
-                lastName:
-                  type: string
-                  example: Dupont
-                email:
-                  type: string
-                  format: email
-                  example: user@example.com
-                password:
-                  type: string
-                  example: password123
-                role:
-                  type: string
-                  example: client
+            examples:
+              client:
+                summary: register for a 'client'
+                value:
+                  firstName: John
+                  lastName: Doe
+                  email: client@example.com
+                  password: client_password
+                  role: client
+              comm:
+                summary: register for a 'comm'
+                value:
+                  email: comm@example.com
+                  password: comm_password
+                  role: comm
       responses:
         '201':
           description: User registered successfully
@@ -62,3 +58,77 @@ paths:
           description: Validation error or email already used
         '500':
           description: Server Error
+
+  /api/users:
+    get:
+      tags:
+        - users
+      description: Retrieves all users registered in the system (accessible only to users with 'comm' role).
+      responses:
+        '200':
+          description: List of users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      description: User ID
+                    email:
+                      type: string
+                      description: User email address
+                    role:
+                      type: string
+                      description: User role
+                  example:
+                    - _id: "6123456789abcdef01234567"
+                      email: "user1@example.com"
+                      role: "client"
+                    - _id: "7123456789abcdef01234568"
+                      email: "user2@example.com"
+                      role: "comm"
+        '403':
+          description: Not authorized to access this route
+
+  /api/users/{id}:
+    get:
+      tags:
+        - users
+      description: Retrieves details of a specific user based on the provided ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the user to retrieve
+      responses:
+        '200':
+          description: User details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    description: User ID
+                  email:
+                    type: string
+                    description: User email address
+                  role:
+                    type: string
+                    description: User role
+                example:
+                  _id: "6123456789abcdef01234567"
+                  email: "user1@example.com"
+                  role: "client"
+        '403':
+          description: Not authorized to access this route
+        '404':
+          description: User not found
+        '500':
+          description: Server error

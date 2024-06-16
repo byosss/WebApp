@@ -1,6 +1,9 @@
-import UserModel, { IUser}  from './userModel'; // Assurez-vous que le chemin est correct
+import mongoose from 'mongoose';
 
-const users: Partial<IUser>[] = [
+import ClientModel, { IClient}  from './clientModel';
+import CommModel, { IComm } from './commModel';
+
+const clients: Partial<IClient>[] = [
     {
         firstName: 'John',
         lastName: 'Doe',
@@ -13,17 +16,31 @@ const users: Partial<IUser>[] = [
         lastName: 'Doe',
         email: 'jane@gmail.com',
         password: 'password',
-        role: 'restorer'
+        role: 'client'
+    }
+]; 
+
+const comms: Partial<IComm>[] = [
+    {
+        email: 'nico@gmail.com',
+        password: 'password',
+        role: 'comm'
+    },
+    {
+        email: 'paul@gmail.com',
+        password: 'password',
+        role: 'comm'
     }
 ]; 
 
 const initDB = async () => {
     try {
         // Clear the existing data
-        await UserModel.deleteMany({});
+        await mongoose.connection.dropCollection('users');
 
         // Insert new data
-        await UserModel.insertMany(users);
+        await ClientModel.insertMany(clients);
+        await CommModel.insertMany(comms);
         console.log('DB data initialized');
 
     } catch (error) {

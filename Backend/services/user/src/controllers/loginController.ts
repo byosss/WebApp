@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import UserModel from '../models/userModel';
 
 const loginController = async (req: Request, res: Response) => {
 
-    try {
-        const { email, password } = req.body;
+    const { email, password } = req.body;
 
+    try {
         // Check if user exists
-        const user = await UserModel.findOne({ email }).select('password');
+        const user = await mongoose.connection.collection('users').findOne({ email }, 
+                                                                           { projection: { password: 1, role: 1 } });
         if (!user) {
             return res.status(401).json({ msg: 'Invalid credentials' });
         }
@@ -23,7 +24,7 @@ const loginController = async (req: Request, res: Response) => {
         // Generate JWT token
         const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-        res.status(200).json({ token });
+        res.status(200).json({ msg: 'User logged successfully', id: user.id, token: token });
     } 
     catch (error) {
         res.status(500).json({ msg: 'Server Error', error: error });
