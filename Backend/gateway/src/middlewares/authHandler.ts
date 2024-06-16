@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-
 const publicRoutes = [
     { path: '/users/login', method: 'POST' },
     { path: '/users/register', method: 'POST' },
-    { path: '/restaurants', method: 'GET' }
+    { path: '/restaurants', method: 'GET' },
+    { path: '/restaurants/:id', method: 'GET' },
 ];
 
 // Middleware d'authentification
@@ -13,8 +13,21 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.replace('Bearer ', '') || '';
 
     // Check if the route is public
-    if (publicRoutes.some(route => route.path === req.path && route.method === req.method)) {
-        return next();
+    for (const route of publicRoutes) {
+        
+        // Check path
+        if (req.path === route.path && req.method === route.method) {
+            return next();
+        }
+        
+        // Check path with params
+        if (route.path.includes(':')) {
+            const pathRegex = new RegExp(route.path.replace(/:[a-zA-Z]+/g, '[a-zA-Z0-9]+'));
+            if (pathRegex.test(req.path) && req.method === route.method) {
+                return next();
+            }
+        }
+
     }
 
     // Check if token exists

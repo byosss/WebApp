@@ -19,6 +19,7 @@ services:
     depends_on:
       - order
       - user
+      - restaurant
   
   user:
     build:
@@ -27,7 +28,7 @@ services:
       - "5000:5000"
     restart: always
     deploy:
-      replicas: 2
+      replicas: 1
     depends_on:
       - mongo
 
@@ -38,7 +39,18 @@ services:
       - "5000:5000"
     restart: always
     deploy:
-      replicas: 2
+      replicas: 1
+    depends_on:
+      - mongo
+  
+  restaurant:
+    build:
+      context: ./services/restaurant
+    expose:
+      - "5000:5000"
+    restart: always
+    deploy:
+      replicas: 1
     depends_on:
       - mongo
 
