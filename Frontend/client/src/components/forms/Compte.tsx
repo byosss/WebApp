@@ -51,7 +51,7 @@ export default function Compte(props: CompteProps) {
                         <TextField fullWidth variant="standard" disabled defaultValue={"HF40CD5"}/>
                     </Grid>
                     <Grid item xs={12} sx={{ mt: 10 }}>
-                        <Button sx={{ my: 2}} fullWidth variant="contained" color="primary">Déconnexion</Button>
+                        <Button sx={{ my: 2}} onClick={() => localStorage.removeItem('token') } fullWidth variant="contained" color="primary">Déconnexion</Button>
                         <Button fullWidth onClick={handleCloseDial(true)} variant="outlined" color="error">Supprimer le compte</Button>
                     </Grid>
                 </Grid>
@@ -63,21 +63,21 @@ export default function Compte(props: CompteProps) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-            <DialogTitle id="alert-dialog-title">
-                {"Etes-vous sur de supprimer votre compte ?"}
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Une fois supprimé il ne sera pas possible de récupérer votre compte
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleCloseDial(false)}>Annuler</Button>
-                <Button variant="contained" color="error" onClick={handleCloseDial(false)} autoFocus>
-                    Supprimer
-                </Button>
-            </DialogActions>
-        </Dialog>
-    </React.Fragment>
+                <DialogTitle id="alert-dialog-title">
+                    {"Etes-vous sur de supprimer votre compte ?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Une fois supprimé il ne sera pas possible de récupérer votre compte
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDial(false)}>Annuler</Button>
+                    <Button variant="contained" color="error" onClick={handleCloseDial(false)} autoFocus>
+                        Supprimer
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
     );
 };
