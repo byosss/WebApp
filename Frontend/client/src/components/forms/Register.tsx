@@ -147,7 +147,6 @@ export default function Register() {
                         value={password}
                         label="Password"
                         type="password"
-                        autoComplete="current-password"
                     />
                     <Button
                         type="submit"
