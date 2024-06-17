@@ -6,28 +6,21 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Alert, IconButton, Tooltip } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
+import { Alert } from '@mui/material';
 
 
-export default function Register() {
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [phone, setPhone] = useState('')
+export default function Connection() {
     const [email, setEmail] = useState('')
-    const [deliveryAddress, setDeliveryAddress] = useState('')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState(false);
-    const navigate = useNavigate();
 
-    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string }) => {
+    const registerUser = async (userData: { email: string; password: string }) => {
         try {
             const response = await axios.post('http://localhost/users/register', userData);
+            console.log('reponse log:', response.data.token);
             localStorage.setItem('token', response.data.token);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
-            navigate('/');
             
         } catch (error) {
             console.error('Registration failed', error);
@@ -40,11 +33,7 @@ export default function Register() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const userData = {
-            firstName: formData.get('firstName') as string,
-            lastName: formData.get('lastName') as string,
-            phone: formData.get('phone') as string,
             email: formData.get('email') as string,
-            deliveryAddress: formData.get('deliveryAddress') as string,
             password: formData.get('password') as string,
         };
 
@@ -52,13 +41,7 @@ export default function Register() {
     };
 
   return (
-    <Box sx={{ mx : 5, mt:2 }}>
-        <Tooltip title="Retour">
-            <IconButton color="default" aria-label="menu" onClick={() => navigate('/')}>
-                <ArrowBackIcon sx={{ fontSize: 30, color: 'primary', cursor: 'pointer'}} />
-                <Typography>Accueil</Typography>
-            </IconButton>
-        </Tooltip>
+    <Box sx={{ m : 5 }}>
       <Grid container component="main">
         <Grid
           item
@@ -90,42 +73,9 @@ export default function Register() {
                     <Typography component="h1" variant="h4" sx={{ alignContent: 'center', fontWeight: 'bold' }}>Cesi Eat</Typography>
                 </Box>
                 <Typography component="h1" variant="h5">
-                    Create an account
+                    Login
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="First name"
-                        onChange={e => setFirstName(e.target.value)}
-                        value={firstName}
-                        name="firstName"
-                        autoComplete="First name"
-                        autoFocus
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Last name"
-                        onChange={e => setLastName(e.target.value)}
-                        value={lastName}
-                        name="lastName"
-                        autoComplete="Last name"
-                        autoFocus
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Phone number"
-                        onChange={e => setPhone(e.target.value)}
-                        value={phone}
-                        name="phone"
-                        autoComplete="Phone number"
-                        autoFocus
-                    />
                     <TextField
                         margin="normal"
                         required
@@ -136,17 +86,6 @@ export default function Register() {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                    />
-                    <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="Delivery address"
-                            onChange={e => setDeliveryAddress(e.target.value)}
-                            value={deliveryAddress}
-                            name="deliveryAddress"
-                            autoComplete="Delivery address"
-                            autoFocus
                     />
                     <TextField
                         margin="normal"
@@ -165,14 +104,14 @@ export default function Register() {
                         color='primary'
                         sx={{ mt: 3, mb: 2, p:2}}
                     >
-                        Sign Up
+                        Sign In
                     </Button>
 
                     <Grid container>
                         <Grid item xs />
                         <Grid item>
-                        <Link href='Login' variant="body2">
-                            {"Already have an account? Sign In"}
+                        <Link href="./Register" variant="body2">
+                            {"Doesnt have an account yet? Sign Up"}
                         </Link>
                         </Grid>
                     </Grid>
@@ -180,11 +119,12 @@ export default function Register() {
                     {isError && 
                         <Alert
                             severity="error"
-                            variant="standard"
+                            variant="filled"
                             sx={{ width: '100%' }}
                         >
-                            Register failed!
+                            Connection failed!
                         </Alert>}
+
                 </form>
             </Box>
         </Grid>
