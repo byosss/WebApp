@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
 
             console.log('Token:', token);
             
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            localStorage.setItem('token', token);
 
             navigate('/home');
         } 

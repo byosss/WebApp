@@ -27,6 +27,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
                 return next();
             }
         }
+        
 
     }
 
@@ -38,9 +39,6 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     // Check if token is valid
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
-
-        res.cookie('userId', decoded.id);
-        res.cookie('userRole', decoded.role);
 
         next();
     } catch (err) {
