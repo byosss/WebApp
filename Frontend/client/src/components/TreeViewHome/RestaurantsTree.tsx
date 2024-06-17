@@ -7,7 +7,7 @@ export default function RestaurantsTree() {
     return (
         <Grid container sx={{ justifyContent: 'center' }}>
             {list.map((item) => (
-            <Grid item xs={3} sx={{ mx:6, my: 2 }}>
+            <Grid key={item} item xs={3} sx={{ mx:6, my: 2 }}>
                 <Card>
                     <CardActionArea>
                         <CardMedia

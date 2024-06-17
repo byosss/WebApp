@@ -37,21 +37,20 @@ export default function CategoryTree() {
         slidesToShow: 6,
         slidesToScroll: 1,
         infinite: true,
-
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
     };
 
     return (
-            <Box sx={{ px:5, justifyContent: 'center'  }}>
-                <Slider {...settings}>
-                    {list.map((item) => (
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    ))}
-                </Slider>
-            </Box>
+        <Box sx={{ px:5, justifyContent: 'center' }}>
+            <Slider {...settings}>
+                {list.map((item) => (
+                <Box key={item} sx={{ display: 'block'}}>
+                    <Avatar alt='pizza' src={pizzaCat}/>
+                    <Typography>Pizza</Typography>
+                </Box>
+                ))}
+            </Slider>
+        </Box>
     )
 }

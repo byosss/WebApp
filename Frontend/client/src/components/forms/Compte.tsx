@@ -6,7 +6,7 @@ interface CompteProps {
     onClose: (open: boolean) => void;
 }
 
-export default function Compte(props: CompteProps) {
+export default function Compte(props: Readonly<CompteProps>) {
     const { open, onClose } = props;
     const [dialDelete, setDialDelete] = useState(false);
 
