@@ -22,7 +22,8 @@ export default function Register() {
 
     const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string }) => {
         const response = await axios.post('http://localhost/users/register', userData);
-        console.log('reponse log:', response.data);
+        console.log('reponse log:', response.data.token);
+        localStorage.setItem('token', response.data.token);
         return response.data;
     };
 
