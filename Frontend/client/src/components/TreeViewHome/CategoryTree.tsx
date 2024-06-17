@@ -29,6 +29,8 @@ function PrevArrow(props: any) {
     );
 }
 
+const list = [1,2,3,4,5,6,7,8];
+
 export default function CategoryTree() {
     const settings = {
         speed: 500,
@@ -43,34 +45,12 @@ export default function CategoryTree() {
     return (
             <Box sx={{ px:5, justifyContent: 'center'  }}>
                 <Slider {...settings}>
+                    {list.map((item) => (
                     <Box sx={{ display: 'block'}}>
                         <Avatar alt='pizza' src={pizzaCat}/>
                         <Typography>Pizza</Typography>
                     </Box>
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    <Box sx={{ display: 'block'}}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
-                    <Box sx={{ display: 'block' }}>
-                        <Avatar alt='pizza' src={pizzaCat}/>
-                        <Typography>Pizza</Typography>
-                    </Box>
+                    ))}
                 </Slider>
             </Box>
     )

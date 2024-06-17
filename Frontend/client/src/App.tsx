@@ -5,6 +5,7 @@ import Restaurant from './page/Restaurant'
 import Register from './components/forms/Register';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './page/Login';
+import Commandes from './page/Commandes';
 
 const theme = createTheme({
   palette: {
@@ -24,8 +25,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/Restaurant/:id" element={<Restaurant />} />
               <Route path='/Login' element={<Login />} />
+              <Route path='/Commandes' element={<Commandes />} />
+              <Route path="/Restaurant/:id" element={<Restaurant />} />
               
               {/* Redirige les chemins non définis vers la page d'accueil */}
               <Route path="*" element={<Navigate to="/" />} />
