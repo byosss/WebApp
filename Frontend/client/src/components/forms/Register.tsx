@@ -6,10 +6,10 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import axios from 'axios';
-import { Alert, IconButton, Snackbar, Tooltip } from '@mui/material';
+import { Alert, IconButton, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import axios from 'axios';
 
 
 export default function Register() {
@@ -20,15 +20,14 @@ export default function Register() {
     const [deliveryAddress, setDeliveryAddress] = useState('')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState(false);
-    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
     const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string }) => {
         try {
             const response = await axios.post('http://localhost/users/register', userData);
-            console.log('reponse log:', response.data.token);
             localStorage.setItem('token', response.data.token);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
+            navigate('/');
             
         } catch (error) {
             console.error('Registration failed', error);
@@ -51,13 +50,6 @@ export default function Register() {
 
         registerUser(userData);
     };
-
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-        setOpen(false);
-      };
 
   return (
     <Box sx={{ mx : 5, mt:2 }}>
@@ -186,17 +178,13 @@ export default function Register() {
                     </Grid>
 
                     {isError && 
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert
-                            onClose={handleClose}
                             severity="error"
-                            variant="filled"
+                            variant="standard"
                             sx={{ width: '100%' }}
                         >
                             Register failed!
-                        </Alert>
-                    </Snackbar>}
-
+                        </Alert>}
                 </form>
             </Box>
         </Grid>

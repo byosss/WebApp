@@ -67,6 +67,14 @@ export default function MenuAppBar() {
     setDrawerOpen(open);
   };
 
+  const checkConnection = () => {
+    if (localStorage.getItem('token')) {
+      navigate('/Commandes');
+    } else {
+      navigate('/Login');
+    };
+  }
+
   return (
     <ThemeProvider theme={navTheme}>
         <Box sx={{ flexGrow: 1 }}>
@@ -112,7 +120,7 @@ export default function MenuAppBar() {
 
                         <Grid item xs={2} sx={{ display: 'Flex', justifyContent: 'space-around' }}>
                             <Button onClick={ () => navigate('/')} sx={{ color: '#757575'}}>Accueil</Button>
-                            <Button onClick={ () => navigate('/Commandes')} sx={{ color: '#757575'}}>Commandes</Button>
+                            <Button onClick={ () => checkConnection()} sx={{ color: '#757575'}}>Commandes</Button>
                         </Grid>
                         <Grid item xs={1} sx={{ display: 'Flex', justifyContent: 'space-around'}}>
                           <Tooltip title="Panier">
