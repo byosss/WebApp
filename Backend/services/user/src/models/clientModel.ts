@@ -1,14 +1,14 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IClient extends Document {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
-    role: string;
+    role: 'client';
 }
 
-const userSchema = new Schema<IUser>({
+const ClientSchema: Schema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -29,10 +29,9 @@ const userSchema = new Schema<IUser>({
     },
     role: {
         type: String,
+        enum: ['client'],
         required: true
     }
-}, { versionKey: false });
+}, { versionKey: false, collection: 'users' });
 
-const UserModel = model<IUser>('users', userSchema);
-
-export default UserModel;
+export default mongoose.model<IClient>('Client', ClientSchema);

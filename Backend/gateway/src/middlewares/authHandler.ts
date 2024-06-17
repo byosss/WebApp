@@ -13,17 +13,17 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.replace('Bearer ', '') || '';
 
     // Check if the route is public
-    for (const route of publicRoutes) {
+    for (const publicRoute of publicRoutes) {
         
         // Check path
-        if (req.path === route.path && req.method === route.method) {
+        if (req.path === publicRoute.path && req.method === publicRoute.method) {
             return next();
         }
         
         // Check path with params
-        if (route.path.includes(':')) {
-            const pathRegex = new RegExp(route.path.replace(/:[a-zA-Z]+/g, '[a-zA-Z0-9]+'));
-            if (pathRegex.test(req.path) && req.method === route.method) {
+        if (publicRoute.path.includes(':')) {
+            const pathRegex = new RegExp(publicRoute.path.replace(/:[a-zA-Z]+/g, '[a-zA-Z0-9]+'));
+            if (pathRegex.test(req.path) && req.method === publicRoute.method) {
                 return next();
             }
         }
@@ -39,8 +39,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-        req.body.userId = decoded.id;
-        req.body.role = decoded.role;
+        res.cookie('userId', decoded.id);
+        res.cookie('userRole', decoded.role);
 
         next();
     } catch (err) {
