@@ -1,5 +1,9 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
+import { useQuery } from "react-query";
+import { useUser } from "../../context/UserContext";
+import axiosInstance from "../../api/axiosConfig";
 
 interface CompteProps {    
     open: boolean;
@@ -9,10 +13,20 @@ interface CompteProps {
 export default function Compte(props: Readonly<CompteProps>) {
     const { open, onClose } = props;
     const [dialDelete, setDialDelete] = useState(false);
+    const { userId, setUserId } = useUser();
 
     const handleCloseDial = (open: boolean) => () => {
         setDialDelete(open);
       };
+
+    const fetchUser = async () => {
+        console.log('id depuis compte', userId);
+        const {data} = await axiosInstance.get(`/api/users/${userId}`);
+        return data;
+    }
+ 
+    const { data, isLoading } = useQuery('user', fetchUser);
+    console.log('data de compte', data);
 
     return (
         <React.Fragment>

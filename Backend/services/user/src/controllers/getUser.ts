@@ -4,6 +4,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const getUser = async (req: Request, res: Response) => {
 
+    console.log('req body', req.body);
+
     const token = req.header('Authorization')?.replace('Bearer ', '') || '';
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 

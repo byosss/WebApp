@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Compte from "../forms/Compte";
 import NoCompte from "../forms/NoCompte";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { UserProvider } from "../../context/UserContext";
 
 const navTheme = createTheme({
     palette: {
@@ -58,6 +60,8 @@ const Search = styled("div")(({ theme }) => ({
     },
   }));
 
+  const queryClient = new QueryClient();
+  
 export default function MenuAppBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -134,7 +138,10 @@ export default function MenuAppBar() {
                             </IconButton> 
                           </Tooltip>
                           {token 
-                          ? <Compte open={drawerOpen} onClose={openDrawer(false)} />
+                          ? 
+                            <QueryClientProvider client={queryClient}>
+                              <Compte open={drawerOpen} onClose={openDrawer(false)} />
+                            </QueryClientProvider>
                           : <NoCompte open={drawerOpen} onClose={openDrawer(false)}/>
                           }
                         </Grid>

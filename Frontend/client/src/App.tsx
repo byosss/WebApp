@@ -6,6 +6,7 @@ import Register from './components/forms/Register';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './page/Login';
 import Commandes from './page/Commandes';
+import { UserProvider } from './context/UserContext';
 
 const theme = createTheme({
   palette: {
@@ -21,6 +22,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <UserProvider>
         <Router>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -33,6 +35,7 @@ function App() {
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </Router>
+        </UserProvider>
     </ThemeProvider>
   );
 }

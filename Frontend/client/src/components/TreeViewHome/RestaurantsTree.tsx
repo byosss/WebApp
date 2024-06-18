@@ -1,36 +1,44 @@
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import burgerImg from '../../Assets/burger.jpg';
-
-const list = [1,2,3,4,5,6]
+import axios from "axios";
+import { useQuery } from "react-query";
 
 export default function RestaurantsTree() {
+
+    const fetchRestaurants = async () => {
+        const {data} = await axios.get('http://localhost/api/restaurants');
+        return data;
+    }
+ 
+    const { data, isLoading } = useQuery('restaurants', fetchRestaurants);
+
     return (
-        <Grid container sx={{ justifyContent: 'center' }}>
-            {list.map((item) => (
-            <Grid key={item} item xs={3} sx={{ mx:6, my: 2 }}>
-                <Card>
-                    <CardActionArea>
-                        <CardMedia
-                        component="img"
-                        height="140"
-                        image={burgerImg}
-                        alt="Burger King"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Burger king
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Restaurant Fast-food - Burger
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Parc des Tanneries, 2 All. des Foulons, 67380 Lingolsheim
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
+            <Grid container sx={{ justifyContent: 'center' }}>
+                {data?.map((restaurant: any) => (
+                <Grid key={restaurant._id} item xs={3} sx={{ mx:6, my: 2 }}>
+                    <Card>
+                        <CardActionArea>
+                            <CardMedia
+                            component="img"
+                            height="140"
+                            image={burgerImg}
+                            alt="Burger King"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {restaurant.name}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Restaurant Fast-food - Burger
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {restaurant.address}
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </Grid>
+                ))}
             </Grid>
-            ))}
-        </Grid>
     )
 }

@@ -1,6 +1,7 @@
 import { Button, Drawer, Grid } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { UserProvider } from "../../context/UserContext";
 
 interface CompteProps {    
     open: boolean;

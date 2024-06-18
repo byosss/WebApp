@@ -10,6 +10,7 @@ import { Alert, IconButton, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
+import { useUser } from '../../context/UserContext';
 
 
 export default function Register() {
@@ -21,11 +22,14 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
+    const { setUserId } = useUser();
 
-    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string }) => {
+    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string; role: string }) => {
         try {
-            const response = await axios.post('http://localhost/users/register', userData);
+            const response = await axios.post('http://localhost/api/users/register', userData);
             localStorage.setItem('token', response.data.token);
+            console.log('depuis register', response.data.id);
+            setUserId(response.data.id);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
             navigate('/');
             
@@ -46,6 +50,7 @@ export default function Register() {
             email: formData.get('email') as string,
             deliveryAddress: formData.get('deliveryAddress') as string,
             password: formData.get('password') as string,
+            role: 'client' as string,
         };
 
         registerUser(userData);
@@ -71,7 +76,7 @@ export default function Register() {
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
+            backgroundSize : 'cover',
             backgroundPosition: 'center',
           }}
         />
