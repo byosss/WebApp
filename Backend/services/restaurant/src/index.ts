@@ -18,11 +18,6 @@ mongoose.connect(process.env.MONGO_URI as string)
 .then(() => initDB())
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
-// Home route
-app.get('/', (req, res) => {
-    res.status(200).json({ msg: 'Restaurant service is running'});
-});
-
 // Routes for restaurants
 app.use('/restaurants', restaurantRoute);
 
