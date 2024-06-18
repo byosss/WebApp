@@ -45,7 +45,7 @@ export default function CategoryTree() {
         <Box sx={{ px:5, justifyContent: 'center' }}>
             <Slider {...settings}>
                 {list.map((item) => (
-                <Box key={item} sx={{ display: 'block'}}>
+                <Box key={item} sx={{ display: 'block', pl:3}}>
                     <Avatar alt='pizza' src={pizzaCat}/>
                     <Typography>Pizza</Typography>
                 </Box>
