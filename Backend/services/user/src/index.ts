@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
@@ -8,9 +8,8 @@ import initDB from './models/initDB';
 require('dotenv').config();
 
 const app = express();
-
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Connexion à la base de données MongoDb
 mongoose.connect(process.env.MONGO_URI as string)
@@ -19,8 +18,19 @@ mongoose.connect(process.env.MONGO_URI as string)
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
 
+const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+}
+
+app.get('/test', logMiddleware, (req: Request, res: Response) => {
+    res.status(200).json({ msg: 'test' });
+});
+
 // Routes pour l'authentification
-app.use('/users', usersRoute);
+app.use('/', logMiddleware, usersRoute);
+
+
 
 // Démarrer le serveur sur le port 5000
 const PORT = 5000;

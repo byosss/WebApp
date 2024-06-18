@@ -19,12 +19,12 @@ mongoose.connect(process.env.MONGO_URI as string)
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
 // Home route
-app.get('/', (req, res) => {
+app.get('/status', (req, res) => {
     res.status(200).json({ msg: 'Restaurant service is running'});
 });
 
 // Routes for restaurants
-app.use('/restaurants', restaurantRoute);
+app.use('/', restaurantRoute);
 
 // Start the server on port 5000
 const PORT = 5000;

@@ -1,16 +1,14 @@
 import express from 'express';
-import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
 
 // Routes pour l'authentification
-app.get('/orders', (req, res) => {
-
+app.get('/', (req, res) => {
+    console.log('Order service is running');
     res.status(200).json({ msg: 'Order service is running'});
-
 });
 
 

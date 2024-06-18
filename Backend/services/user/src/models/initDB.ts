@@ -7,15 +7,19 @@ const clients: Partial<IClient>[] = [
     {
         firstName: 'John',
         lastName: 'Doe',
+        phone: '1234567890',
         email: 'john@gmail.com',
         password: 'password',
+        deliveryAddress: '123 Main St',
         role: 'client'
     },
     {
         firstName: 'Jane',
         lastName: 'Doe',
+        phone: '1234567890',
         email: 'jane@gmail.com',
         password: 'password',
+        deliveryAddress: '123 Main St',
         role: 'client'
     }
 ]; 
