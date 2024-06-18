@@ -9,7 +9,7 @@ const clients: Partial<IClient>[] = [
         lastName: 'Doe',
         phone: '1234567890',
         email: 'john@gmail.com',
-        password: 'password',
+        password: '$2a$10$VKM/uRGAWTUVE7veHSAZHeLThtMA/j6EP8a/E5RYnOYavfxo7F3xu',
         deliveryAddress: '123 Main St',
         role: 'client'
     },
@@ -18,7 +18,7 @@ const clients: Partial<IClient>[] = [
         lastName: 'Doe',
         phone: '1234567890',
         email: 'jane@gmail.com',
-        password: 'password',
+        password: '$2a$10$VKM/uRGAWTUVE7veHSAZHeLThtMA/j6EP8a/E5RYnOYavfxo7F3xu',
         deliveryAddress: '123 Main St',
         role: 'client'
     }
@@ -27,17 +27,18 @@ const clients: Partial<IClient>[] = [
 const comms: Partial<IComm>[] = [
     {
         email: 'nico@gmail.com',
-        password: 'password',
+        password: '$2a$10$VKM/uRGAWTUVE7veHSAZHeLThtMA/j6EP8a/E5RYnOYavfxo7F3xu',
         role: 'comm'
     },
     {
         email: 'paul@gmail.com',
-        password: 'password',
+        password: '$2a$10$VKM/uRGAWTUVE7veHSAZHeLThtMA/j6EP8a/E5RYnOYavfxo7F3xu',
         role: 'comm'
     }
 ]; 
 
 const initDB = async () => {
+
     try {
         // Clear the existing data
         await mongoose.connection.dropCollection('users');

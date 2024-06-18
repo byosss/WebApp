@@ -18,13 +18,8 @@ mongoose.connect(process.env.MONGO_URI as string)
 .then(() => initDB())
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
-// Home route
-app.get('/status', (req, res) => {
-    res.status(200).json({ msg: 'Restaurant service is running'});
-});
-
 // Routes for restaurants
-app.use('/', restaurantRoute);
+app.use('/restaurants', restaurantRoute);
 
 // Start the server on port 5000
 const PORT = 5000;
