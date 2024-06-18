@@ -18,17 +18,12 @@ mongoose.connect(process.env.MONGO_URI as string)
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
 
-const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    console.log(`${req.method} ${req.path}`);
-    next();
-}
-
-app.get('/test', logMiddleware, (req: Request, res: Response) => {
+app.get('/users/test', (req: Request, res: Response) => {
     res.status(200).json({ msg: 'test' });
 });
 
 // Routes pour l'authentification
-app.use('/', logMiddleware, usersRoute);
+app.use('/users', usersRoute);
 
 
 
