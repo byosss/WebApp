@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { Box, Link, List, ListItem, Typography } from "@mui/material";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import XIcon from '@mui/icons-material/X';
@@ -23,7 +23,7 @@ export default function Footer() {
                         <XIcon sx={{ fontSize: 40 }} />
                     </Box>
                     <Box sx={{ display: 'flex', pt:2}}>
-                        <Typography sx={{ px: 3 }}>Mentions légales</Typography>
+                    <Link href="/Mentions Legales" underline="none" sx={{ color: 'white'}}><Typography sx={{ px: 3 }}>Mentions légales</Typography></Link>
                         <Typography sx={{ px: 3 }}>Politique de confidentialité</Typography>
                         <Typography sx={{ pl: 3}}>Conditions d'utilisation</Typography>
                     </Box>

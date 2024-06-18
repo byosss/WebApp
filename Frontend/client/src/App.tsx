@@ -6,6 +6,7 @@ import Register from './components/forms/Register';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './page/Login';
 import Commandes from './page/Commandes';
+import Mentions from './page/Mentions';
 
 const theme = createTheme({
   palette: {
@@ -27,10 +28,12 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path='/Login' element={<Login />} />
               <Route path='/Commandes' element={<Commandes />} />
+              <Route path='/Mentions Legales' element={<Mentions />} />
               <Route path="/Restaurant/:id" element={<Restaurant />} />
               
               {/* Redirige les chemins non définis vers la page d'accueil */}
               <Route path="*" element={<Navigate to="/" />} />
+
             </Routes>
         </Router>
     </ThemeProvider>

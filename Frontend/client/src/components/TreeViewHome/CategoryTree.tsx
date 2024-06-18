@@ -42,7 +42,7 @@ export default function CategoryTree() {
     };
 
     return (
-        <Box sx={{ px:5, justifyContent: 'center' }}>
+        <Box sx={{ px:6, justifyContent: 'center' }}>
             <Slider {...settings}>
                 {list.map((item) => (
                 <Box key={item} sx={{ display: 'block', pl:3}}>
