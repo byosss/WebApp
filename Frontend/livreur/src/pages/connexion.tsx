@@ -18,7 +18,7 @@ export function Login() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "85%" }}>
+    <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
@@ -29,9 +29,11 @@ export function Login() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: 1 }}>
+          <Box sx={{ mb: 1, display: "flex", alignItems: "center" }}>
             <img src="/logoCE100.png" alt="Logo" />
+            <h2 style={{ marginLeft: "10px" }}>Cesi Eat Delivery</h2>
           </Box>
+
           <Typography component="h1" variant="h5">
             Welcome to Cesi Eat Delivery
           </Typography>

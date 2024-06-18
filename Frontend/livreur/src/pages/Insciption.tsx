@@ -33,8 +33,9 @@ export default function Register() {
             alignItems: "center",
           }}
         >
-          <Box sx={{ mb: 1 }}>
+          <Box sx={{ mb: 1, display: "flex", alignItems: "center" }}>
             <img src="/logoCE100.png" alt="Logo" />
+            <h2 style={{ marginLeft: "10px" }}>Cesi Eat Delivery</h2>
           </Box>
           <Typography component="h1" variant="h5">
             Create an account
