@@ -3,6 +3,7 @@ import React from "react"
 import MenuAppBar from "../components/nav/Navbar";
 import CategoryTree from "../components/TreeViewHome/CategoryTree";
 import RestaurantsTree from "../components/TreeViewHome/RestaurantsTree";
+import Footer from "../components/nav/Footer";
 
 export default function Home() {
     return(
@@ -20,6 +21,7 @@ export default function Home() {
                     <RestaurantsTree /> 
                 </Grid>
             </Grid>
+            <Footer />
         </React.Fragment>
     )
 }
