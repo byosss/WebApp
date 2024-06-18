@@ -14,6 +14,11 @@ const Login: React.FC<LoginProps> = () => {
                                                                               password: 'password'
                                                                             });
 
+      
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userId', response.data.id);
+
+
       console.log(response.data);
     } catch (error) {
       console.error(error);
