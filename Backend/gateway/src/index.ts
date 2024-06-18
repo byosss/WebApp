@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express';
-import httpProxy from 'http-proxy';
+import { createProxyMiddleware, RequestHandler } from 'http-proxy-middleware';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
@@ -12,24 +12,29 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const apiProxy = httpProxy.createProxyServer();
 
 // Utiliser le proxy pour les requêtes à /api/users
-app.use('/api/users', (req, res) => {
-    console.log('Redirecting to users service');
-    console.log(req.method, req.url);
+const proxyOptions = {
+    target: 'http://user:5000',
+    changeOrigin: true,
+    timeout: 6000,
+    proxyTimeout: 6000,
+    onProxyReq: (proxyReq: any, req: Request, res: Response) => {
 
-    apiProxy.web(req, res, {
-        target: 'http://user:5000',
-        changeOrigin: true,
-        timeout: 6000,
-        proxyTimeout: 60000
-    }, (err) => {
-        if (err) {
-            res.status(500).json({ error: 'Proxy error', details: err.message });
+        console.log(`Yo Proxying ${req.method} request to ${req.url}`);
+        
+        if (req.body) {
+            const bodyData = JSON.stringify(req.body);
+            
+            proxyReq.setHeader('Content-Type', 'application/json');
+            proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+
+            proxyReq.write(bodyData);
         }
-    });
-});
+    }
+};
+
+app.use('/api/users', createProxyMiddleware(proxyOptions));
 
 
 
