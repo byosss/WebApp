@@ -3,6 +3,7 @@ import React from "react"
 import MenuAppBar from "../components/nav/Navbar";
 import CategoryTree from "../components/TreeViewHome/CategoryTree";
 import RestaurantsTree from "../components/TreeViewHome/RestaurantsTree";
+import Footer from "../components/nav/Footer";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ export default function Home() {
                         </QueryClientProvider>
                     </Grid>
                 </Grid>
+                <Footer />
         </React.Fragment>
     )
 }
