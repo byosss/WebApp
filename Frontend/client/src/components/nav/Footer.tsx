@@ -23,9 +23,9 @@ export default function Footer() {
                         <XIcon sx={{ fontSize: 40 }} />
                     </Box>
                     <Box sx={{ display: 'flex', pt:2}}>
-                    <Link href="/Mentions Legales" underline="none" sx={{ color: 'white'}}><Typography sx={{ px: 3 }}>Mentions légales</Typography></Link>
-                        <Typography sx={{ px: 3 }}>Politique de confidentialité</Typography>
-                        <Typography sx={{ pl: 3}}>Conditions d'utilisation</Typography>
+                    <Link href="/Mentions Legales" underline="none" sx={{ color: 'white'}}>
+                        <Typography>Mentions légales</Typography>
+                    </Link>
                     </Box>
                 </Box>
             </Box>
