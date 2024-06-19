@@ -3,18 +3,27 @@ import RestaurantModel, { IRestaurant } from './restaurantModel'; // Assurez-vou
 const restaurants: Partial<IRestaurant>[] = [
     {
         name: 'Le Gourmet',
-        address: '123 Rue de Paris, Paris, France',
-        rating: 4.5
+        address: {
+            street: '123 Main St',
+            city: 'Paris',
+            zip: '67000',
+        }
     },
     {
         name: 'Sushi World',
-        address: '456 Sushi St, Tokyo, Japan',
-        rating: 4.7
+        address: {
+            street: '456 Sushi Blvd',
+            city: 'Tokyo',
+            zip: '12345',
+        }
     },
     {
         name: 'Pasta Paradise',
-        address: '789 Pasta Ave, Rome, Italy',
-        rating: 4.6
+        address: {
+            street: '789 Pasta Ave',
+            city: 'Rome',
+            zip: '00100',
+        }
     }
 ];
 

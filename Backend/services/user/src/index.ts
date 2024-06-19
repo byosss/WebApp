@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
@@ -18,13 +18,8 @@ mongoose.connect(process.env.MONGO_URI as string)
 .catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
 
-app.get('/users/test', (req: Request, res: Response) => {
-    res.status(200).json({ msg: 'test' });
-});
-
 // Routes pour l'authentification
 app.use('/users', usersRoute);
-
 
 
 // Démarrer le serveur sur le port 5000

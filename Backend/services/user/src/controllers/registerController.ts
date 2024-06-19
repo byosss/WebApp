@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 
 import ClientModel from '../models/clientModel';
 import CommModel from '../models/commModel';
+import RestorerModel from '../models/restorerModel';
 
 const registerController = async (req: Request, res: Response) => {
 
@@ -17,6 +18,9 @@ const registerController = async (req: Request, res: Response) => {
             break;
         case 'comm':
             UserModel = CommModel;
+            break;
+        case 'restorer':
+            UserModel = RestorerModel;
             break;
         default:
             return res.status(400).json({ error: 'Invalid role specified' });
