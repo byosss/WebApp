@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Compte from "../forms/Compte";
 import NoCompte from "../forms/NoCompte";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { UserProvider } from "../../context/UserContext";
+import Panier from "../forms/Panier";
 
 const navTheme = createTheme({
     palette: {
@@ -60,15 +59,17 @@ const Search = styled("div")(({ theme }) => ({
     },
   }));
 
-  const queryClient = new QueryClient();
-  
 export default function MenuAppBar() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerCompteOpen, setDrawerCompteOpen] = useState(false);
+  const [drawerPanierOpen, setDrawerPanierOpen] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
   const openDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
+    setDrawerCompteOpen(open);
+  };
+  const openDrawerPanier = (open: boolean) => () => {
+    setDrawerPanierOpen(open);
   };
 
   const checkConnection = () => {
@@ -128,7 +129,7 @@ export default function MenuAppBar() {
                         </Grid>
                         <Grid item xs={1} sx={{ display: 'Flex', justifyContent: 'space-around'}}>
                           <Tooltip title="Panier">
-                            <IconButton color="default" aria-label="menu">
+                            <IconButton onClick={openDrawerPanier(true)} color="default" aria-label="menu">
                                 <ShoppingCartRoundedIcon />
                             </IconButton>
                           </Tooltip>
@@ -137,12 +138,10 @@ export default function MenuAppBar() {
                                 <PersonIcon />
                             </IconButton> 
                           </Tooltip>
-                          {token 
-                          ? 
-                            <QueryClientProvider client={queryClient}>
-                              <Compte open={drawerOpen} onClose={openDrawer(false)} />
-                            </QueryClientProvider>
-                          : <NoCompte open={drawerOpen} onClose={openDrawer(false)}/>
+                          {drawerPanierOpen ? <Panier open={drawerPanierOpen} onClose={openDrawerPanier(false)} /> : null}
+                          {token && token !== null
+                          ? <Compte open={drawerCompteOpen} onClose={openDrawer(false)} />
+                          : <NoCompte open={drawerCompteOpen} onClose={openDrawer(false)}/>
                           }
                         </Grid>
                     </Grid>
