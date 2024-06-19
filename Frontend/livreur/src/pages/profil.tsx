@@ -11,8 +11,11 @@ import {
   formGroupClasses,
 } from "@mui/material";
 import SimpleBottomNavigation from "../components/Menu";
+import * as React from "react";
+import { flattenDiagnosticMessageText } from "typescript";
 
-function ProfilePage() {
+export default function FormPropsTextFields() {
+  // function ProfilePage() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -30,7 +33,11 @@ function ProfilePage() {
             <h2 style={{ marginLeft: "10px" }}>Cesi Eat Delivery</h2>
           </Box>
 
-          <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{ mb: 3, alignSelf: "flex-start" }}
+          >
             My account
           </Typography>
 
@@ -40,99 +47,93 @@ function ProfilePage() {
               <Typography variant="body1" sx={{ mb: 1 }}>
                 Prénom et Nom
               </Typography>
-              <Button variant="outlined" fullWidth sx={{ mb: 3 }}>
+              {/* <Button variant="outlined" fullWidth sx={{ mb: 3 }}>
                 Modifier le compte
-              </Button>
+              </Button> */}
+              {/* <Link href={`/profil`} className="w-full md:w-1/3">
+                <FormPropsTextFields
+                  variant="outlined"
+                  className="w-full rounded-lg text-primary hover:text-secondary border-primary hover:border-secondary "
+                >
+                  Modify account
+                </FormPropsTextFields>
+              </Link> */}
 
-              <Typography variant="subtitle1" style={{ textAlign: "left" }}>
-                Numéro de téléphone
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ mb: 2 }}
-                style={{ textAlign: "left" }}
+              <Link
+                href="#"
+                variant="body2"
+                style={{
+                  color: "#007965",
+                  textDecoration: "none",
+                }}
               >
-                +33 6 00 00 00 00
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-
-              <Typography variant="subtitle1" style={{ textAlign: "left" }}>
-                Adresse mail
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ mb: 2 }}
-                style={{ textAlign: "left" }}
-              >
-                prenom.nom@viacesi.fr
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-
-              <Typography variant="subtitle1" style={{ textAlign: "left" }}>
-                Ville
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ mb: 2 }}
-                style={{ textAlign: "left" }}
-              >
-                48 Rue du jardin, 67000 Strasbourg, France
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-
-              <Typography variant="subtitle1" style={{ textAlign: "left" }}>
-                Code de parrainage
-              </Typography>
-              <Typography variant="subtitle2" style={{ textAlign: "left" }}>
-                HF40PFD
-              </Typography>
+                {"Modify account"}
+              </Link>
             </Box>
           </Grid>
-
-          {/* Section des boutons */}
-          <Grid item xs={12}>
-            {/* <Link
-              component={Button}
-              type="button"
-              fullWidth
-              href="/"
-              sx={{ mt: 3, mb: 2 }}
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "30ch" },
+            }}
+            noValidate
+            autoComplete="off"
+            style={{ width: "100%" }}
+          >
+            <div
               style={{
-                backgroundColor: "#007965",
-                color: "white",
-                textDecoration: "none",
-                padding: "6px 110px",
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
               }}
             >
-              Sign up
-            </Link> */}
-            <Link
-              component={Button}
-              type="button"
-              fullWidth
-              href="/"
-              sx={{ mt: 3, mb: 2 }}
-              style={{
-                backgroundColor: "#007965",
-                color: "white",
-                textDecoration: "none",
-              }}
-            >
-              Disconnection
-            </Link>
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="outlined" color="error" fullWidth>
-              Delete account
-            </Button>
-          </Grid>
+              <TextField
+                id="standard-number"
+                label="Phone number"
+                disabled
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="standard"
+                style={{}}
+              />
+              <TextField
+                id="standard-disabled"
+                label="Email address"
+                disabled
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                defaultValue=""
+                variant="standard"
+              />
+              <TextField
+                id="standard-disabled"
+                label="City"
+                disabled
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                defaultValue=""
+                variant="standard"
+              />
+              <TextField
+                id="standard-disabled"
+                label="Sponsor code"
+                disabled
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                defaultValue=""
+                variant="standard"
+              />
+            </div>
+          </Box>
         </Box>
-        <div>
-          <SimpleBottomNavigation />
-        </div>
       </Grid>
+      <div>
+        <SimpleBottomNavigation />
+      </div>
     </Grid>
   );
 }
-
-export default ProfilePage;

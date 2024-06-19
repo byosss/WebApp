@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { Grid, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 // Définition et exportation du composant fonctionnel SimpleBottomNavigation.
 export default function SimpleBottomNavigation() {
   // Définition d'un état local `value` pour suivre l'onglet sélectionné.
   const [value, setValue] = React.useState(0);
+  const navigate = useNavigate();
 
   // Fonction pour obtenir le style de chaque action de navigation en bas,
   // couleur et soulignant l'élément actuellement sélectionné.
@@ -51,8 +53,16 @@ export default function SimpleBottomNavigation() {
               showLabels // Affiche les étiquettes des onglets.
             >
               {/* Actions de navigation avec étiquettes et styles conditionnels. */}
-              <BottomNavigationAction label="Commands" style={getStyle(0)} />
-              <BottomNavigationAction label="Profil" style={getStyle(1)} />
+              <BottomNavigationAction
+                onClick={() => navigate("/commandes")}
+                label="Commands"
+                style={getStyle(0)}
+              />
+              <BottomNavigationAction
+                onClick={() => navigate("/profil")}
+                label="Profil"
+                style={getStyle(1)}
+              />
             </BottomNavigation>
           </Paper>
         </Box>

@@ -6,6 +6,8 @@ import { Menu } from "@mui/material";
 import SimpleBottomNavigation from "./components/Menu";
 import { RouteTwoTone } from "@mui/icons-material";
 import ProfilePage from "./pages/profil";
+import FormPropsTextFields from "./pages/ModificationProfil";
+import Commandes from "./pages/commandes";
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/menu" element={<SimpleBottomNavigation />} />
+        <Route path="/commandes" element={<Commandes />} />
         <Route path="/profil" element={<ProfilePage />} />
+        <Route path="/modificationprofil" element={<FormPropsTextFields />} />
       </Routes>
     </Router>
   );
