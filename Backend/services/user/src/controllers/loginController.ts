@@ -5,6 +5,8 @@ import bcrypt from 'bcryptjs';
 
 const loginController = async (req: Request, res: Response) => {
 
+    console.log('Login controller called');
+
     const { email, password } = req.body;
 
     try {

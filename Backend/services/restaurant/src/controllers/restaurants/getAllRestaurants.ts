@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import RestaurantModel from '../models/restaurantModel';
+import RestaurantModel from '../../models/restaurantModel';
 
 const getAllRestaurants = async (req: Request, res: Response) => {
     try {

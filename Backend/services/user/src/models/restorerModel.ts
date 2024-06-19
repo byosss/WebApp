@@ -1,9 +1,8 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 
 export interface IRestaurant extends Document {
     email: string;
     password: string;
-    restaurantId: string;
     role: 'restorer';
 }
 
@@ -17,11 +16,6 @@ const restaurantSchema = new Schema<IRestaurant>({
         type: String,
         required: true
     },
-    restaurantId: {
-        type: String,
-        required: true,
-        unique: true
-    },
     role: {
         type: String,
         enum: ['restorer'],
@@ -29,6 +23,4 @@ const restaurantSchema = new Schema<IRestaurant>({
     }
 }, { versionKey: false, collection: 'users' });
 
-const RestaurantModel = model<IRestaurant>('Restorer', restaurantSchema);
-
-export default RestaurantModel;
+export default mongoose.model<IRestaurant>('Restorer', restaurantSchema);

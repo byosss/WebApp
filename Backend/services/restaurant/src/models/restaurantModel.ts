@@ -1,87 +1,32 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
+import itemSchema, { IItem } from './itemModel';
+import menuSchema, { IMenu } from './menuModel';
 
 export interface IRestaurant extends Document {
     name: string;
+    description: string;
     address: {
         street: string;
         city: string;
         zip: string;
     };
-    items: [{
-        name: string;
-        description: string;
-        type: string;
-        price: number;
-    }];
-    menus: [{
-        name: string;
-        description: string;
-        price: number;
-        items: [{
-            id: string;
-        }];
-    }];
+    ownerId: string;
+    items: IItem[];
+    menus: IMenu[];
 }
 
+// Restaurant Schema
 const restaurantSchema = new Schema<IRestaurant>({
-    name: {
-        type: String,
-        required: true
-    },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    ownerId: { type: String, required: true },
     address: {
-        street: {
-            type: String,
-            required: true
-        },
-        city: {
-            type: String,
-            required: true
-        },
-        zip: {
-            type: String,
-            required: true
-        }
+        street: { type: String, required: true },
+        city: { type: String, required: true },
+        zip: { type: String, required: true }
     },
-    items: [{
-        name: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        type: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        }
-    }],
-    menus: [{
-        name: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        },
-        items: [{
-            id: {
-                type: String,
-                required: true
-            }
-        }]
-    }]
+    items: { type: [itemSchema.schema] },
+    menus: { type: [menuSchema.schema] }
 }, { versionKey: false, collection: 'restaurants' });
 
-const RestaurantModel = model<IRestaurant>('Restaurant', restaurantSchema);
-
-export default RestaurantModel;
+export default mongoose.model<IRestaurant>('Restaurant', restaurantSchema);

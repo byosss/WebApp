@@ -4,14 +4,19 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const getAllUsers = async (req: Request, res: Response) => {
 
-    /*
-    const token = req.header('Authorization')?.replace('Bearer ', '') || '';
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+    try {
+        // Check if the user is a comm
+        const token = req.header('Authorization')?.replace('Bearer ', '') || '';
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-    if (decoded.role !== 'comm') {
-        return res.status(403).json({ msg: 'You are not authorized to access this route' });
+        if (decoded.role !== 'comm') {
+            return res.status(403).json({ msg: 'You are not authorized to access this route' });
+        }
     }
-    */
+    catch (error) {
+        return res.status(401).json({ msg: 'Invalid token' });
+    }
+    
     
     try {
         const users = await mongoose.connection.collection('users').find( {}, { projection: { password: 0 } }).toArray();

@@ -1,0 +1,67 @@
+paths:
+  /api/restaurants:
+    get:
+      tags:
+        - restaurants
+      description: Retrieve all restaurants
+      responses:
+        '200':
+          description: A list of restaurants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    name:
+                      type: string
+                      example: "Le Bistrot"
+                    description:
+                      type: string
+                      example: "Cozy French restaurant"
+                    address:
+                      type: string
+                      example: "123 Rue de Rivoli, Paris"
+      '500':
+        description: Server Error
+
+  /api/restaurants/{id}:
+    get:
+      tags:
+        - restaurants
+      description: Retrieve a restaurant by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to get
+      responses:
+        '200':
+          description: Restaurant found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc6f
+                  name:
+                    type: string
+                    example: "Le Bistrot"
+                  description:
+                    type: string
+                    example: "Cozy French restaurant"
+                  address:
+                    type: string
+                    example: "123 Rue de Rivoli, Paris"
+        '404':
+          description: Restaurant not found
+        '500':
+          description: Server Error

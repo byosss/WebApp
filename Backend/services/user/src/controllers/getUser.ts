@@ -14,13 +14,13 @@ const getUser = async (req: Request, res: Response) => {
     }
 
     // Check if a client is trying to access another client's data
-    if (decoded.role === 'client' && decoded.id !== req.params.id) {
+    if (decoded.role === 'client' && decoded.id !== req.params.userId) {
         return res.status(403).json({ msg: 'You are not authorized to access this route' });
     }
     
 
     try {
-        const user = await mongoose.connection.collection('users').findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, { projection: { password: 0 } });
+        const user = await mongoose.connection.collection('users').findOne({ _id: new mongoose.Types.ObjectId(req.params.userId) }, { projection: { password: 0 } });
         res.status(200).json(user);
     }
     catch (error) {

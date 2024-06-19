@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import RestaurantModel from '../models/restaurantModel';
+import RestaurantModel from '../../models/restaurantModel';
 
 const getRestaurant = async (req: Request, res: Response) => {
-    const { id } = req.params;
     try {
-        const restaurant = await RestaurantModel.findById(id);
+        const restaurant = await RestaurantModel.findById(req.params.restaurantId);
         res.status(200).json(restaurant);
     } 
     catch (error) {

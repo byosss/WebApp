@@ -34,7 +34,7 @@ const initDB = async () => {
 
         // Insert new data
         await RestaurantModel.insertMany(restaurants);
-        console.log('DB data initialized');
+        console.log('restaurants DB data initialized');
 
     } catch (error) {
         console.error('Error initializing the database', error);
