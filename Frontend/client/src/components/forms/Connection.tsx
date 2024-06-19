@@ -8,22 +8,28 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import axios from 'axios';
 import { Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/UserContext';
 
 
 export default function Connection() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState(false);
+    const { setUserId } = useUser();
+    const navigate = useNavigate();
 
     const registerUser = async (userData: { email: string; password: string }) => {
         try {
-            const response = await axios.post('http://localhost/users/register', userData);
-            console.log('reponse log:', response.data.token);
+            const response = await axios.post('http://localhost/api/users/login', userData);
+            console.log('reponse log:', response.data);
             localStorage.setItem('token', response.data.token);
+            setUserId(response.data.id);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
+            navigate('/')
             
         } catch (error) {
-            console.error('Registration failed', error);
+            console.error('Login failed', error);
             setIsError(true); // Définir l'état de l'erreur à vrai en cas d'échec
         }
     };
@@ -131,4 +137,8 @@ export default function Connection() {
     </Grid>
     </Box>
   );
+}
+
+function setUserId(id: any) {
+    throw new Error('Function not implemented.');
 }

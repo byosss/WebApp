@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useUser } from "../../context/UserContext";
@@ -20,17 +19,16 @@ export default function Compte(props: Readonly<CompteProps>) {
       };
 
     const fetchUser = async () => {
-        console.log('id depuis compte', userId);
         const {data} = await axiosInstance.get(`/api/users/${userId}`);
         return data;
     }
  
     const { data, isLoading } = useQuery('user', fetchUser);
-    console.log('data de compte', data);
 
     return (
         <React.Fragment>
             <Drawer anchor="right" open={open} onClose={onClose}>
+            {data != undefined &&
                 <Grid container
                     spacing={2}
                     sx={{
@@ -45,30 +43,31 @@ export default function Compte(props: Readonly<CompteProps>) {
                         <Typography align="center" variant="h4" >Mon Compte</Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ py: 3, textAlign: 'center' }}>
-                        <Typography align="center" variant="h6">Nom et prénom</Typography>
+                        <Typography align="center" variant="h6">{data.firstName + ' ' + data.lastName}</Typography>
                         <Button  size="small" variant="text">Modifier le compte</Button>
                     </Grid>
                     <Grid item xs={12} >
                         <Typography variant="h6">Numéro de téléphone</Typography>
-                        <TextField fullWidth variant="standard" disabled defaultValue={"+33.6.00.00.00.00"}/>
+                        <TextField fullWidth variant="standard" disabled defaultValue={data.phone}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Adresse mail</Typography>
-                        <TextField fullWidth variant="standard" disabled defaultValue={"prenom.nom@vraiesi.fr"}/>
+                        <TextField fullWidth variant="standard" disabled defaultValue={data.email}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Adresse de livraison</Typography>
-                        <TextField fullWidth variant="standard" disabled defaultValue={"48 Rue du jardin, 67000 Strasbourg, France"}/>
+                        <TextField fullWidth variant="standard" disabled defaultValue={data.deliveryAddress}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Code de parainnage</Typography>
                         <TextField fullWidth variant="standard" disabled defaultValue={"HF40CD5"}/>
                     </Grid>
                     <Grid item xs={12} sx={{ mt: 10 }}>
-                        <Button sx={{ my: 2}} onClick={() => localStorage.removeItem('token') } fullWidth variant="contained" color="primary">Déconnexion</Button>
+                        <Button sx={{ my: 2}} onClick={() => {localStorage.removeItem('token'); onClose(true);} } fullWidth variant="contained" color="primary">Déconnexion</Button>
                         <Button fullWidth onClick={handleCloseDial(true)} variant="outlined" color="error">Supprimer le compte</Button>
                     </Grid>
                 </Grid>
+                 }
             </Drawer>
             
             <Dialog

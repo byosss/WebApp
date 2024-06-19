@@ -2,6 +2,7 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import Connection from "../components/forms/Connection";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
+import { UserProvider } from "../context/UserContext";
 
 export default function Login() {
     const navigate = useNavigate();
