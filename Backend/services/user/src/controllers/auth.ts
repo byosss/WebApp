@@ -14,6 +14,8 @@ const publicRoutes = [
 
 const auth = async (req: Request, res: Response) => {
 
+    console.log('Checking auth...');
+
     const method = req.header('X-Original-Method');
     const path = req.header('X-Original-URI');
     const token = req.header('Authorization')?.replace('Bearer ', '') || '';

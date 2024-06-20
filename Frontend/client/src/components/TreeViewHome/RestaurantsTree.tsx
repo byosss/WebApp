@@ -35,7 +35,7 @@ export default function RestaurantsTree() {
                                         Restaurant Fast-food - Burger
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        {restaurant.address}
+                                        {restaurant.address.street + " " + restaurant.address.city + " " + restaurant.address.zip}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
