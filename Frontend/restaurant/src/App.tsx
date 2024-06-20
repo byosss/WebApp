@@ -1,22 +1,19 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Login } from "./pages/connexion";
-import Register from "./pages/inscription";
-import Restaurant from "./pages/restaurant";
+import { Login } from "./pages/Login";
+import Register from "./pages/Register";
+import Restaurant from "./pages/Restaurant";
+
 
 function App() {
   return (
-    <div className="App">
       <Router>
-        <div>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/restaurant" element={<Restaurant />} />
+            <Route path="/Register" element={<Register />} />
+            <Route path="/Restaurant" element={<Restaurant />} />
           </Routes>
-        </div>
       </Router>
-    </div>
   );
 }
 

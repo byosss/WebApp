@@ -1,17 +1,8 @@
 import {
-  Box,
-  Button,
   Grid,
-  Link,
   Paper,
-  TextField,
-  Typography,
-  Container,
-  Divider,
-  formGroupClasses,
 } from "@mui/material";
 import SimpleBottomNavigation from "../components/Menu";
-import * as React from "react";
 
 export default function Restaurant() {
   return (
