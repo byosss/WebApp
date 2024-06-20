@@ -10,7 +10,6 @@ const publicRoutes = [
     { method: 'GET', path: '/api/restaurants/:restaurantId/items/:itemId' },
     { method: 'GET', path: '/api/restaurants/:restaurantId/menus' },
     { method: 'GET', path: '/api/restaurants/:restaurantId/menus/:menuId' },
-    { method: 'GET', path: '/api/orders' },
 ];
 
 const auth = async (req: Request, res: Response) => {

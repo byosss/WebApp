@@ -1,15 +1,16 @@
 import express from 'express';
+import cors from 'cors';
+
+import orderRoute from './routes/ordersRoute';
+
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 
-// Routes pour l'authentification
-app.get('/orders', (req, res) => {
-    console.log('Order service is running');
-    res.status(200).json({ msg: 'Order service is running'});
-});
+app.use('/users', orderRoute)
 
 
 // Démarrer le serveur sur le port 5000

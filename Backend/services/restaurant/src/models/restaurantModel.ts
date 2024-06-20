@@ -15,7 +15,6 @@ export interface IRestaurant extends Document {
     menus: IMenu[];
 }
 
-// Restaurant Schema
 const restaurantSchema = new Schema<IRestaurant>({
     name: { type: String, required: true },
     description: { type: String, required: true },
