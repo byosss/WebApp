@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-import Client from '../../models/clientModel';
+import Client, { IClient } from '../../models/clientModel';
+import CartItemModel, { ICartItem } from '../../models/itemModel';
 
 const addItemToCart = async (req: Request, res: Response) => {
 
@@ -9,9 +10,8 @@ const addItemToCart = async (req: Request, res: Response) => {
         const token = req.header('Authorization')?.replace('Bearer ', '') || '';
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
-        const { name, description, price } = req.body;
-
         const userId = req.params.userId;
+        const item = req.body as ICartItem;
 
         // Check user id
         if (userId !== decoded.id) {
@@ -24,12 +24,18 @@ const addItemToCart = async (req: Request, res: Response) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
+        // Check if item exists
+        const itemExists = user.cart.find(item => item.id === req.body.id);
+        if (itemExists) {
+            return res.status(400).json({ msg: 'Item already exists in cart' });
+        }
+
         // Add item to cart
-        user.cart.push({ name, description, price });
+        user.cart.push(item);
         await user.save();
 
         res.status(200).json({ msg: 'Item added to cart successfully' });
-    } 
+    }
     catch (error) {
         res.status(500).json({ msg: 'Server Error', error: error });
     }

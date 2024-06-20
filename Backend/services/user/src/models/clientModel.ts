@@ -1,16 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ICartItem {
-    name: string;
-    description: string;
-    price: number;
-}
-
-const CartItemSchema: Schema = new Schema({
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true }
-});
+import CartItemModel, { ICartItem } from './itemModel';
 
 export interface IClient extends Document {
     firstName: string;
@@ -38,7 +28,7 @@ const ClientSchema: Schema = new Schema({
         zip: { type: String, required: true }, 
     },
     password: { type: String, required: true },
-    cart: [CartItemSchema],
+    cart: [CartItemModel.schema],
     role: { type: String, enum: ['client'], required: true }
 }, { versionKey: false, collection: 'users' });
 
