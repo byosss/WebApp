@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import itemSchema, { IItem } from './itemModel';
-import menuSchema, { IMenu } from './menuModel';
+import itemModel, { IItem } from './itemModel';
+import menuModel, { IMenu } from './menuModel';
 
 export interface IRestaurant extends Document {
     name: string;
@@ -25,8 +25,8 @@ const restaurantSchema = new Schema<IRestaurant>({
         city: { type: String, required: true },
         zip: { type: String, required: true }
     },
-    items: { type: [itemSchema.schema] },
-    menus: { type: [menuSchema.schema] }
+    items: { type: [itemModel.schema] },
+    menus: { type: [menuModel.schema] }
 }, { versionKey: false, collection: 'restaurants' });
 
 export default mongoose.model<IRestaurant>('Restaurant', restaurantSchema);

@@ -12,7 +12,11 @@ const clients: Partial<IClient>[] = [
         phone: '1234567890',
         email: 'john@gmail.com',
         password: '$2a$10$VKM/uRGAWTUVE7veHSAZHeLThtMA/j6EP8a/E5RYnOYavfxo7F3xu',
-        deliveryAddress: '123 Main St',
+        address: {
+            street: '123 Main St',
+            city: 'Springfield',
+            zip: '12345'
+        },
         role: 'client'
     }
 ];
