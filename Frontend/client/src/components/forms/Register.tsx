@@ -18,18 +18,20 @@ export default function Register() {
     const [lastName, setLastName] = useState('')
     const [phone, setPhone] = useState('')
     const [email, setEmail] = useState('')
-    const [deliveryAddress, setDeliveryAddress] = useState('')
+    const [street, setStreet] = useState('')
+    const [city, setCity] = useState('')
+    const [zip, setZip] = useState('')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
     const { setUserId } = useUser();
 
-    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; deliveryAddress: string; password: string; role: string }) => {
+    const registerUser = async (userData: { firstName: string; lastName: string; phone: string; email: string; address: { street: string; city: string; zip: string }; password: string; role: string }) => {
         try {
+            console.log('Registering user', userData);
             const response = await axios.post('http://localhost/api/users/register', userData);
-            localStorage.setItem('token', response.data.token);
-            console.log('depuis register', response.data.id);
             setUserId(response.data.id);
+            localStorage.setItem('token', response.data.token);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
             navigate('/');
             
@@ -48,7 +50,11 @@ export default function Register() {
             lastName: formData.get('lastName') as string,
             phone: formData.get('phone') as string,
             email: formData.get('email') as string,
-            deliveryAddress: formData.get('deliveryAddress') as string,
+            address: {
+                street: formData.get('street') as string,
+                city: formData.get('city') as string,
+                zip: formData.get('zip') as string,
+            },
             password: formData.get('password') as string,
             role: 'client' as string,
         };
@@ -147,12 +153,36 @@ export default function Register() {
                             required
                             fullWidth
                             label="Delivery address"
-                            onChange={e => setDeliveryAddress(e.target.value)}
-                            value={deliveryAddress}
-                            name="deliveryAddress"
+                            onChange={e => setStreet(e.target.value)}
+                            value={street}
+                            name="street"
                             autoComplete="Delivery address"
                             autoFocus
                     />
+                    <Box sx={{ display: 'flex' }}>
+                        <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Ville"
+                                onChange={e => setCity(e.target.value)}
+                                value={city}
+                                name="city"
+                                autoComplete="Ville"
+                                autoFocus
+                        />
+                        <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Code postal"
+                                onChange={e => setZip(e.target.value)}
+                                value={zip}
+                                name="zip"
+                                autoComplete="Code postal"
+                                autoFocus
+                        />
+                    </Box>
                     <TextField
                         margin="normal"
                         required
