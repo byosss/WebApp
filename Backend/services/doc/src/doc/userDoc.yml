@@ -1,8 +1,13 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+
 paths:
   /api/users/login:
     post:
       tags:
-        - users
+        - Users
       description: Authenticate a user and generate JWT token
       requestBody:
         required: true
@@ -26,11 +31,10 @@ paths:
         '500':
           description: Server Error
 
-
   /api/users/register:
     post:
       tags:
-        - users
+        - Users
       description: Register a new user
       requestBody:
         required: true
@@ -38,7 +42,7 @@ paths:
           application/json:
             examples:
               client:
-                summary: register for a 'client'
+                summary: Register as a 'client'
                 value:
                   firstName: John
                   lastName: Doe
@@ -46,7 +50,7 @@ paths:
                   password: client_password
                   role: client
               comm:
-                summary: register for a 'comm'
+                summary: Register as a 'comm'
                 value:
                   email: comm@example.com
                   password: comm_password
@@ -62,7 +66,7 @@ paths:
   /api/users:
     get:
       tags:
-        - users
+        - Users
       description: Retrieves all users registered in the system (accessible only to users with 'comm' role).
       responses:
         '200':
@@ -92,11 +96,13 @@ paths:
                       role: "comm"
         '403':
           description: Not authorized to access this route
+        '500':
+          description: Server Error
 
   /api/users/{id}:
     get:
       tags:
-        - users
+        - Users
       description: Retrieves details of a specific user based on the provided ID.
       parameters:
         - in: path
@@ -130,5 +136,171 @@ paths:
           description: Not authorized to access this route
         '404':
           description: User not found
+        '500':
+          description: Server error
+    patch:
+      tags:
+        - Users
+      description: Update details of a specific user based on the provided ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the user to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: John
+                lastName:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: newpassword123
+      responses:
+        '200':
+          description: User updated successfully
+        '403':
+          description: Not authorized to access this route
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - Users
+      description: Delete a specific user based on the provided ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the user to delete
+      responses:
+        '200':
+          description: User deleted successfully
+        '403':
+          description: Not authorized to access this route
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+  /api/users/{userId}/cast:
+    post:
+      tags:
+        - Users/Cast
+      description: Add a cast item for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to add a cast item for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                itemId:
+                  type: string
+                  example: 60c46b4ee93a9e0015b4bc70
+                description:
+                  type: string
+                  example: "Cast item description"
+      responses:
+        '201':
+          description: Cast item added successfully
+        '500':
+          description: Server error
+    get:
+      tags:
+        - Users/Cast
+      description: Get all cast items for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to retrieve cast items for
+      responses:
+        '200':
+          description: List of cast items retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc70
+                    description:
+                      type: string
+                      example: "Cast item description"
+        '404':
+          description: Cast items not found
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - Users/Cast
+      description: Delete all cast items for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to delete cast items for
+      responses:
+        '200':
+          description: All cast items deleted successfully
+        '404':
+          description: Cast items not found
+        '500':
+          description: Server error
+
+  /api/users/{userId}/cast/{itemId}:
+    delete:
+      tags:
+        - Users/Cast
+      description: Delete a specific cast item for a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to delete the cast item for
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+          description: ID of the cast item to delete
+      responses:
+        '200':
+          description: Cast item deleted successfully
+        '404':
+          description: Cast item not found
         '500':
           description: Server error

@@ -14,7 +14,7 @@ const swaggerOptions = {
             description: 'Documentation for the CesiEat API'
         }
     },
-    apis: ['./src/doc/*.yml']
+    apis: ['./src/doc/userDoc.yml', './src/doc/restaurantDoc.yml', './src/doc/orderDoc.yml']
 };
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerOptions)));
