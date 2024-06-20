@@ -31,6 +31,7 @@ export default function Register() {
             console.log('Registering user', userData);
             const response = await axios.post('http://localhost/api/users/register', userData);
             setUserId(response.data.id);
+            localStorage.setItem('token', response.data.token);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
             navigate('/');
             

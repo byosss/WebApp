@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useUser } from "../../context/UserContext";
 import axiosInstance from "../../api/axiosConfig";
-import axios from "axios";
 
 interface CompteProps {    
     open: boolean;
@@ -25,35 +24,52 @@ export default function Compte(props: Readonly<CompteProps>) {
         return data;
     }
  
-    const { data } = useQuery('user', fetchUser);
+    const { data, refetch } = useQuery('user', fetchUser);
 
     const modifierLeCompte = () => {
         setModifier(!modifier);
     }
-
     
-    const updateUser = async (userData: { firstName: string; lastName: string; phone: string; deliveryAddress: string; role: string }) => {
+    const updateUser = async (userData: { phone: string; address: { street: string; city: string; zip: string }; role: string }) => {
         try {
-            const response = await axios.patch('http://localhost/api/users/register', userData);
+            const response = await axiosInstance.patch(`/api/users/${userId}`, userData);
+            console.log('User updated successfully', response.data);
+            modifierLeCompte();
         } catch (error) {
             console.error('Registration failed', error);
         }
     };
 
+    useEffect(() => {
+        refetch();
+    }, [open]);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const userData = {
-            firstName: formData.get('firstName') as string,
-            lastName: formData.get('lastName') as string,
             phone: formData.get('phone') as string,
-            deliveryAddress: formData.get('deliveryAddress') as string,
+            address: {
+                street: formData.get('street') as string,
+                city: formData.get('city') as string,
+                zip: formData.get('zip') as string,
+            },
             role: 'client' as string,
         };
 
         updateUser(userData);
     };
 
+    const deleteAccount = async () => {
+        try {
+            const response = await axiosInstance.delete(`/api/users/${userId}`);
+            console.log('User deleted successfully', response.data);
+            localStorage.removeItem('token');
+            onClose(true);
+        } catch (error) {
+            console.error('Delete failed', error);
+        }
+    };
 
     return (
         <React.Fragment>
@@ -78,13 +94,13 @@ export default function Compte(props: Readonly<CompteProps>) {
                         {modifier 
                         ? <Button onClick={() => modifierLeCompte()}  size="small" variant="text">Modifier le compte</Button>
                         :<Box>
-                        <Button onClick={() => modifierLeCompte()} type="submit" size="small" variant="text">Confirmer la modification</Button>
+                        <Button type="submit" size="small" variant="text">Confirmer la modification</Button>
                         <Button onClick={() => {modifierLeCompte(); onClose(false);}}  size="small" variant="text">Annuler les modification</Button></Box>
                         }
                     </Grid>
                     <Grid item xs={12} >
                         <Typography variant="h6">Numéro de téléphone</Typography>
-                        <TextField fullWidth variant="standard" disabled={modifier} defaultValue={data.phone}/>
+                        <TextField fullWidth name="phone" variant="standard" disabled={modifier} defaultValue={data.phone}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Adresse mail</Typography>
@@ -92,7 +108,11 @@ export default function Compte(props: Readonly<CompteProps>) {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Adresse de livraison</Typography>
-                        <TextField fullWidth variant="standard" disabled={modifier} defaultValue={data.deliveryAddress}/>
+                        <TextField fullWidth name="street" label="Adresse" variant="standard" disabled={modifier} defaultValue={data.address.street}/>
+                        <Box sx={{ display: 'flex', mt:1 }}>
+                            <TextField fullWidth name="city" label="Ville" sx={{ mr:1}} variant="standard" disabled={modifier} defaultValue={data.address.city}/>
+                            <TextField fullWidth name="zip" label="Code postal" variant="standard" disabled={modifier} defaultValue={data.address.zip}/>
+                        </Box>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="h6">Code de parainnage</Typography>
@@ -124,7 +144,7 @@ export default function Compte(props: Readonly<CompteProps>) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDial(false)}>Annuler</Button>
-                    <Button variant="contained" color="error" onClick={handleCloseDial(false)} autoFocus>
+                    <Button variant="contained" color="error" onClick={() => deleteAccount()} autoFocus>
                         Supprimer
                     </Button>
                 </DialogActions>
