@@ -1,18 +1,28 @@
-import { Button, Drawer, Grid } from "@mui/material";
-import React from "react";
+import { Button, Drawer, Grid, ThemeProvider, createTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { UserProvider } from "../../context/UserContext";
 
 interface CompteProps {    
     open: boolean;
     onClose: (open: boolean) => void;
 }
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#007965',
+        },
+        secondary: {
+            main: '#00AF91',
+        },
+    },
+  });
+
 export default function NoCOmpte(props: Readonly<CompteProps>) {
     const { open, onClose } = props;
     const navigate = useNavigate();
 
     return (
+        <ThemeProvider theme={theme}>
         <Drawer anchor="right" open={open} onClose={onClose}>
             <Grid container
                 spacing={2}
@@ -30,5 +40,6 @@ export default function NoCOmpte(props: Readonly<CompteProps>) {
                 </Grid>
             </Grid>
         </Drawer>
+        </ThemeProvider>
     );
 };

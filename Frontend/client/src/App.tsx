@@ -8,6 +8,7 @@ import Login from './page/Login';
 import Commandes from './page/Commandes';
 import Mentions from './page/Mentions';
 import { UserProvider } from './context/UserContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const theme = createTheme({
   palette: {
@@ -20,10 +21,13 @@ const theme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
+        <QueryClientProvider client={queryClient}>
         <Router>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -38,6 +42,7 @@ function App() {
 
             </Routes>
         </Router>
+        </QueryClientProvider>
         </UserProvider>
     </ThemeProvider>
   );
