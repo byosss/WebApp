@@ -10,8 +10,8 @@ const Order: React.FC<OrderProps> = () => {
     // faire une requete GET pour checker l'état du micro service order
     try {
       // put token in bearer 
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzQwNjg2NzM5ODU3NTZhZmZkMTk1YiIsInJvbGUiOiJjb21tIiwiaWF0IjoxNzE4ODk3NDI1LCJleHAiOjE3MTg5MDEwMjV9.ZsUSlUn_DYo5NcNBY1v76VB9jMFEmLdkj3f2bcL50GE';
+      const userId = '66742f17f57b4bc6b4290d28';
       console.log(token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+import CartItemModel, { ICartItem } from './itemModel';
+
 export interface IClient extends Document {
     firstName: string;
     lastName: string;
@@ -11,6 +13,7 @@ export interface IClient extends Document {
         zip: string;
     };
     password: string;
+    cart: ICartItem[];
     role: 'client';
 }
 
@@ -25,6 +28,7 @@ const ClientSchema: Schema = new Schema({
         zip: { type: String, required: true }, 
     },
     password: { type: String, required: true },
+    cart: [CartItemModel.schema],
     role: { type: String, enum: ['client'], required: true }
 }, { versionKey: false, collection: 'users' });
 
