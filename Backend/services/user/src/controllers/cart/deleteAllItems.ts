@@ -3,16 +3,13 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 
 import Client from '../../models/clientModel';
 
-const deleteItemInCart = async (req: Request, res: Response) => {
+const deleteAllItems = async (req: Request, res: Response) => {
 
     try {
-
-        
         const token = req.header('Authorization')?.replace('Bearer ', '') || '';
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
         const userId = req.params.userId;
-        const itemId = req.params.itemId;
 
         // Check user id
         if (userId !== decoded.id) {
@@ -25,24 +22,15 @@ const deleteItemInCart = async (req: Request, res: Response) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        // Check if item exists
-        
-        const item = user.cart.findIndex(item => item.id === req.params.itemId);
-        if (!item) {
-            return res.status(404).json({ msg: 'Item not found' });
-        }
-
-        // Delete item from cart
-        user.cart.splice(item, 1);
+        // Delete all items from cart
+        user.cart = [];
         await user.save();
 
-        
-        
-        res.status(200).json({ msg: 'Item deleted from cart successfully' });
+        res.status(200).json({ msg: 'All items deleted from cart successfully' });
     } 
     catch (error) {
         res.status(500).json({ msg: 'Server Error', error: error });
     }
 };
 
-export default deleteItemInCart;
+export default deleteAllItems;

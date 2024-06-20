@@ -1,11 +1,192 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+  
 paths:
   /api/orders:
     get:
       tags:
-        - orders
+        - Orders
       description: Get all orders
       responses:
         '200':
           description: Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    userId:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    restaurantId:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          itemId:
+                            type: string
+                            example: 60c46b4ee93a9e0015b4bc6f
+                          quantity:
+                            type: integer
+                            example: 2
+                    status:
+                      type: string
+                      example: "Pending"
+                    total:
+                      type: number
+                      example: 50.00
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - Orders
+      description: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 60c46b4ee93a9e0015b4bc6f
+                restaurantId:
+                  type: string
+                  example: 60c46b4ee93a9e0015b4bc6f
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      itemId:
+                        type: string
+                        example: 60c46b4ee93a9e0015b4bc6f
+                      quantity:
+                        type: integer
+                        example: 2
+      responses:
+        '201':
+          description: Order created successfully
+        '500':
+          description: Server Error
+
+  /api/orders/{userId}:
+    get:
+      tags:
+        - Orders
+      description: Get all orders for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to retrieve orders for
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    userId:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    restaurantId:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc6f
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          itemId:
+                            type: string
+                            example: 60c46b4ee93a9e0015b4bc6f
+                          quantity:
+                            type: integer
+                            example: 2
+                    status:
+                      type: string
+                      example: "Pending"
+                    total:
+                      type: number
+                      example: 50.00
+        '404':
+          description: Orders not found
+        '500':
+          description: Server Error
+    patch:
+      tags:
+        - Orders
+      description: Update an order for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to update order for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      itemId:
+                        type: string
+                        example: 60c46b4ee93a9e0015b4bc6f
+                      quantity:
+                        type: integer
+                        example: 2
+                status:
+                  type: string
+                  example: "Pending"
+      responses:
+        '200':
+          description: Order updated successfully
+        '404':
+          description: Order not found
+        '500':
+          description: Server Error
+    delete:
+      tags:
+        - Orders
+      description: Delete an order for a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to delete order for
+      responses:
+        '200':
+          description: Order deleted successfully
+        '404':
+          description: Order not found
         '500':
           description: Server Error

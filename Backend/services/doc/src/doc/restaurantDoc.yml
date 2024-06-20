@@ -1,8 +1,13 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+
 paths:
   /api/restaurants:
     get:
       tags:
-        - restaurants
+        - Restaurants
       description: Retrieve all restaurants
       responses:
         '200':
@@ -26,13 +31,38 @@ paths:
                     address:
                       type: string
                       example: "123 Rue de Rivoli, Paris"
-      '500':
-        description: Server Error
+        '500':
+          description: Server Error
+    post:
+      tags:
+        - Restaurants
+      description: Create a new restaurant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Le Bistrot"
+                description:
+                  type: string
+                  example: "Cozy French restaurant"
+                address:
+                  type: string
+                  example: "123 Rue de Rivoli, Paris"
+      responses:
+        '201':
+          description: Restaurant created
+        '500':
+          description: Server Error
 
   /api/restaurants/{id}:
     get:
       tags:
-        - restaurants
+        - Restaurants
       description: Retrieve a restaurant by ID
       parameters:
         - in: path
@@ -63,5 +93,397 @@ paths:
                     example: "123 Rue de Rivoli, Paris"
         '404':
           description: Restaurant not found
+        '500':
+          description: Server Error
+    patch:
+      tags:
+        - Restaurants
+      description: Update a restaurant by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Le Bistrot"
+                description:
+                  type: string
+                  example: "Cozy French restaurant"
+                address:
+                  type: string
+                  example: "123 Rue de Rivoli, Paris"
+      responses:
+        '200':
+          description: Restaurant updated
+        '404':
+          description: Restaurant not found
+        '500':
+          description: Server Error
+    delete:
+      tags:
+        - Restaurants
+      description: Delete a restaurant by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to delete
+      responses:
+        '200':
+          description: Restaurant deleted
+        '404':
+          description: Restaurant not found
+        '500':
+          description: Server Error
+
+  /api/restaurants/{restaurantId}/items:
+    post:
+      tags:
+        - Items
+      description: Create a new item for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to add an item to
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Steak Frites"
+                description:
+                  type: string
+                  example: "Grilled steak with fries"
+                price:
+                  type: number
+                  example: 25.00
+      responses:
+        '201':
+          description: Item created
+        '500':
+          description: Server Error
+    get:
+      tags:
+        - Items
+      description: Retrieve all items for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to retrieve items for
+      responses:
+        '200':
+          description: A list of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc70
+                    name:
+                      type: string
+                      example: "Steak Frites"
+                    description:
+                      type: string
+                      example: "Grilled steak with fries"
+                    price:
+                      type: number
+                      example: 25.00
+        '500':
+          description: Server Error
+
+  /api/restaurants/{restaurantId}/items/{itemId}:
+    get:
+      tags:
+        - Items
+      description: Retrieve an item by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+          description: ID of the item to retrieve
+      responses:
+        '200':
+          description: Item found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc70
+                  name:
+                    type: string
+                    example: "Steak Frites"
+                  description:
+                    type: string
+                    example: "Grilled steak with fries"
+                  price:
+                    type: number
+                    example: 25.00
+        '404':
+          description: Item not found
+        '500':
+          description: Server Error
+    patch:
+      tags:
+        - Items
+      description: Update an item by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+          description: ID of the item to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Steak Frites"
+                description:
+                  type: string
+                  example: "Grilled steak with fries"
+                price:
+                  type: number
+                  example: 25.00
+      responses:
+        '200':
+          description: Item updated
+        '404':
+          description: Item not found
+        '500':
+          description: Server Error
+    delete:
+      tags:
+        - Items
+      description: Delete an item by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+          description: ID of the item to delete
+      responses:
+        '200':
+          description: Item deleted
+        '404':
+          description: Item not found
+        '500':
+          description: Server Error
+
+  /api/restaurants/{restaurantId}/menus:
+    post:
+      tags:
+        - Menus
+      description: Create a new menu for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to add a menu to
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Lunch Menu"
+                description:
+                  type: string
+                  example: "Menu available for lunch"
+      responses:
+        '201':
+          description: Menu created
+        '500':
+          description: Server Error
+    get:
+      tags:
+        - Menus
+      description: Retrieve all menus for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to retrieve menus for
+      responses:
+        '200':
+          description: A list of menus
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60c46b4ee93a9e0015b4bc71
+                    name:
+                      type: string
+                      example: "Lunch Menu"
+                    description:
+                      type: string
+                      example: "Menu available for lunch"
+        '500':
+          description: Server Error
+
+  /api/restaurants/{restaurantId}/menus/{menuId}:
+    get:
+      tags:
+        - Menus
+      description: Retrieve a menu by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: menuId
+          required: true
+          schema:
+            type: string
+          description: ID of the menu to retrieve
+      responses:
+        '200':
+          description: Menu found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc71
+                  name:
+                    type: string
+                    example: "Lunch Menu"
+                  description:
+                    type: string
+                    example: "Menu available for lunch"
+        '404':
+          description: Menu not found
+        '500':
+          description: Server Error
+    patch:
+      tags:
+        - Menus
+      description: Update a menu by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: menuId
+          required: true
+          schema:
+            type: string
+          description: ID of the menu to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Lunch Menu"
+                description:
+                  type: string
+                  example: "Menu available for lunch"
+      responses:
+        '200':
+          description: Menu updated
+        '404':
+          description: Menu not found
+        '500':
+          description: Server Error
+    delete:
+      tags:
+        - Menus
+      description: Delete a menu by ID for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant
+        - in: path
+          name: menuId
+          required: true
+          schema:
+            type: string
+          description: ID of the menu to delete
+      responses:
+        '200':
+          description: Menu deleted
+        '404':
+          description: Menu not found
         '500':
           description: Server Error
