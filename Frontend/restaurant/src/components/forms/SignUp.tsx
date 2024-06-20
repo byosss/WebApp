@@ -20,14 +20,12 @@ export default function SignUp() {
     const navigate = useNavigate();
 
     const registerRestorer = async (restorerData: { email: string; password: string; role: string }, 
-        restaurantData: { name: string; address: { street: string, city: string, zip: string }; description: string; ownerId: string; }) => {
+        restaurantData: { name: string; address: { street: string, city: string, zip: string }; description: string;}) => {
         
-            try {
+        try {
             const response = await axios.post("http://localhost/api/users/Register", restorerData);
             localStorage.setItem("token", response.data.token);
-            restaurantData.ownerId = response.data.id;
-
-            await axiosInstance.post("http://localhost/api/restaurants", restaurantData);
+            await axiosInstance.post("/api/restaurants", restaurantData);
             navigate('/Restaurant');
 
         } catch (error) {
@@ -53,7 +51,6 @@ export default function SignUp() {
             zip: formData.get("zip") as string,
         },
         description: formData.get("description") as string,
-        ownerId : '' as string,
       }
 
       registerRestorer(restorerData, restaurantData);
@@ -161,7 +158,7 @@ export default function SignUp() {
             <Grid container sx={{ mt:1 }}>
                 <Grid item xs />
                 <Grid item>
-                    <Link href="/Login" variant="body2" color={'#007965'}>
+                    <Link href="/" variant="body2" color={'#007965'}>
                         {"Vous avez déjà un compte? Connectez-vous"}
                     </Link>
                 </Grid>
