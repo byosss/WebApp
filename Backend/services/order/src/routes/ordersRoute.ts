@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post('/', createOrder);
 router.get('/', getOrder);
-// router.patch('/:orderId', updateOrder);
+router.patch('/:orderId', updateOrder);
 
 export default router;

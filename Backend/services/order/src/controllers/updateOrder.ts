@@ -28,18 +28,26 @@ const updateOrder = async (req: Request, res: Response) => {
         return res.status(200).json(updatedOrder);
     }
     else if (decodedToken.role === 'restorer') {
-        /*
+        
         // check if the order is from the restaurant
-        const restaurant = mongoose.connection.collection('restaurants').findOne({ ownerId: decodedToken.id });
-        if (order.restaurantId !== restaurant.id) {
+        const restaurant = await mongoose.connection.collection('restaurants').findOne({ ownerId: decodedToken.id });
+        
+        if (!restaurant) {
+            return res.status(403).json({ error: 'You are not the owner of the order' });
+        }
+        console.log(restaurant);
+        console.log(order.restaurantId);
+        console.log(restaurant._id.toString());
+        if (!restaurant || order.restaurantId !== restaurant._id.toString()) {
             return res.status(403).json({ error: 'You are not the owner of the order' });
         }
 
         // update the order
-        const updatedOrder = await OrderModel.findOneAndUpdate({ _id: req.params.order }, req.body , { new: true });
+        await order.updateOne(req.body);
         
-        return res.status(200).json(updatedOrder);
-        */
+        
+        return res.status(200).json( {message: 'Order updated successfully' });
+        
     }
 };
 
