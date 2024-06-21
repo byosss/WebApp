@@ -26,19 +26,26 @@ const Order: React.FC<OrderProps> = () => {
       console.error(error);
     }
     */
-    const user = {
-      email: 'a',
-      password: 'a@a.a'
-    };
+
     try {
-      const response = await axios.post(`http://localhost/api/users/login`, user);
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzQwNjg2NzM5ODU3NTZhZmZkMTk1YiIsInJvbGUiOiJjb21tIiwiaWF0IjoxNzE4OTI3OTY1LCJleHAiOjE3MTg5MzE1NjV9.tF28FciyfMRHM6KqLzgCMEckwUTVoZQmYtS-nJq9HEI';
+
+      // set auth header
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const response = await axios.delete(`http://localhost/api/users/6674068603fe513e5fe2f544`);
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
     
-
-   
+    /*
+    try {
+      const response = await axios.get(`http://localhost/api/restaurants`);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    */
     
   };
 

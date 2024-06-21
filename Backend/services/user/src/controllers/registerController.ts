@@ -30,11 +30,7 @@ const registerController = async (req: Request, res: Response) => {
     
     try {
         // Create a new user instance
-        const newUser = new UserModel({
-            email: req.body.email,
-            password: req.body.password,
-            role: req.body.role
-        });
+        const newUser = new UserModel(req.body);
 
         // Validate the user data
         await newUser.validate();

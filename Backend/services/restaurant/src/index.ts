@@ -8,9 +8,7 @@ import initDB from './models/initDB';
 require('dotenv').config();
 
 const app = express();
-
 app.use(express.json());
-app.use(cors());
 
 // Connexion à la base de données MongoDb
 mongoose.connect(process.env.MONGO_URI as string)
