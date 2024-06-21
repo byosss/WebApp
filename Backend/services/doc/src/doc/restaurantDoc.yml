@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: User API
+  title: Restaurant API
   version: 1.0.0
 
 paths:
@@ -485,5 +485,39 @@ paths:
           description: Menu deleted
         '404':
           description: Menu not found
+        '500':
+          description: Server Error
+
+  /api/restaurants/{restaurantId}/stats:
+    get:
+      tags:
+        - Restaurants
+      description: Retrieve statistics for a restaurant
+      parameters:
+        - in: path
+          name: restaurantId
+          required: true
+          schema:
+            type: string
+          description: ID of the restaurant to retrieve stats for
+      responses:
+        '200':
+          description: Restaurant stats retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalOrders:
+                    type: integer
+                    example: 150
+                  totalRevenue:
+                    type: number
+                    example: 5000.00
+                  averageRating:
+                    type: number
+                    example: 4.5
+        '404':
+          description: Restaurant not found
         '500':
           description: Server Error

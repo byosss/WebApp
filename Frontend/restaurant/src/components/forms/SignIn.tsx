@@ -17,6 +17,7 @@ export default function SignIn() {
             const response = await axios.post("http://localhost/api/users/login", restorerData);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("idResto", response.data.restaurantId);
+            console.log('User logged in successfully', response.data);
             navigate("/Home");
 
         } catch (error) {
