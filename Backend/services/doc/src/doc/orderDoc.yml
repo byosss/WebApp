@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: User API
+  title: Orders API
   version: 1.0.0
-  
+
 paths:
   /api/orders:
     get:
@@ -81,7 +81,115 @@ paths:
         '500':
           description: Server Error
 
-  /api/orders/{userId}:
+  /api/orders/{orderId}:
+    get:
+      tags:
+        - Orders
+      description: Get details of a specific order
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+          description: ID of the order to retrieve
+      responses:
+        '200':
+          description: Order details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc6f
+                  userId:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc6f
+                  restaurantId:
+                    type: string
+                    example: 60c46b4ee93a9e0015b4bc6f
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: string
+                          example: 60c46b4ee93a9e0015b4bc6f
+                        quantity:
+                          type: integer
+                          example: 2
+                  status:
+                    type: string
+                    example: "Pending"
+                  total:
+                    type: number
+                    example: 50.00
+        '404':
+          description: Order not found
+        '500':
+          description: Server Error
+    patch:
+      tags:
+        - Orders
+      description: Update details of a specific order
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+          description: ID of the order to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      itemId:
+                        type: string
+                        example: 60c46b4ee93a9e0015b4bc6f
+                      quantity:
+                        type: integer
+                        example: 2
+                status:
+                  type: string
+                  example: "Pending"
+      responses:
+        '200':
+          description: Order updated successfully
+        '404':
+          description: Order not found
+        '500':
+          description: Server Error
+    delete:
+      tags:
+        - Orders
+      description: Delete a specific order
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+          description: ID of the order to delete
+      responses:
+        '200':
+          description: Order deleted successfully
+        '404':
+          description: Order not found
+        '500':
+          description: Server Error
+
+  /api/orders/user/{userId}:
     get:
       tags:
         - Orders
@@ -136,14 +244,14 @@ paths:
     patch:
       tags:
         - Orders
-      description: Update an order for a specific user
+      description: Update all orders for a specific user
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: string
-          description: ID of the user to update order for
+          description: ID of the user to update orders for
       requestBody:
         required: true
         content:
@@ -167,26 +275,26 @@ paths:
                   example: "Pending"
       responses:
         '200':
-          description: Order updated successfully
+          description: Orders updated successfully
         '404':
-          description: Order not found
+          description: Orders not found
         '500':
           description: Server Error
     delete:
       tags:
         - Orders
-      description: Delete an order for a specific user
+      description: Delete all orders for a specific user
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: string
-          description: ID of the user to delete order for
+          description: ID of the user to delete orders for
       responses:
         '200':
-          description: Order deleted successfully
+          description: Orders deleted successfully
         '404':
-          description: Order not found
+          description: Orders not found
         '500':
           description: Server Error

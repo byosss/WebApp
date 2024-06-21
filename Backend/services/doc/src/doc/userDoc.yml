@@ -202,7 +202,7 @@ paths:
   /api/users/{userId}/cast:
     post:
       tags:
-        - Users/Cast
+        - Cast
       description: Add a cast item for a specific user
       parameters:
         - in: path
@@ -231,7 +231,7 @@ paths:
           description: Server error
     get:
       tags:
-        - Users/Cast
+        - Cast
       description: Get all cast items for a specific user
       parameters:
         - in: path
@@ -262,7 +262,7 @@ paths:
           description: Server error
     delete:
       tags:
-        - Users/Cast
+        - Cast
       description: Delete all cast items for a specific user
       parameters:
         - in: path
@@ -282,7 +282,7 @@ paths:
   /api/users/{userId}/cast/{itemId}:
     delete:
       tags:
-        - Users/Cast
+        - Cast
       description: Delete a specific cast item for a user
       parameters:
         - in: path
