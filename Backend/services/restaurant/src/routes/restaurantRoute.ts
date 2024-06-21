@@ -5,6 +5,7 @@ import getRestaurant from '../controllers/restaurants/getRestaurant';
 import createRestaurant from '../controllers/restaurants/createRestaurant';
 import updateRestaurant from '../controllers/restaurants/updateRestaurant';
 import deleteRestaurant from '../controllers/restaurants/deleteRestaurant';
+import getStats from '../controllers/restaurants/getStats';
 
 import createItem from '../controllers/items/createItem';
 import getAllItems from '../controllers/items/getAllItems';
@@ -25,6 +26,7 @@ router.get('/', getAllRestaurants);
 router.get('/:restaurantId', getRestaurant);
 router.patch('/:restaurantId', updateRestaurant);
 router.delete('/:restaurantId', deleteRestaurant);
+router.get('/:restaurantId/stats', getStats);
 
 router.post('/:restaurantId/items', createItem);
 router.get('/:restaurantId/items', getAllItems);
