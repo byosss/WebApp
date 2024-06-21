@@ -19,13 +19,12 @@ export default function SignUp() {
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
 
-    const registerRestorer = async (restorerData: { email: string; password: string; role: string }, 
-        restaurantData: { name: string; address: { street: string, city: string, zip: string }; description: string;}) => {
+    const registerRestorer = async (restorerData: { email: string; password: string; role: string; restaurantName: string; restaurantAddress: { street: string, city: string, zip: string }; restaurantDescription: string; }) => {
         
         try {
             const response = await axios.post("http://localhost/api/users/Register", restorerData);
             localStorage.setItem("token", response.data.token);
-            await axiosInstance.post("/api/restaurants", restaurantData);
+            localStorage.setItem("idResto", response.data.id);
             navigate('/Restaurant');
 
         } catch (error) {
@@ -40,20 +39,17 @@ export default function SignUp() {
       const restorerData = {
         email: formData.get("email") as string,
         password: formData.get("password") as string,
-        role: 'restorer'
-      };
-
-      const restaurantData = {
-        name: formData.get("name") as string,
-        address : {
+        role: 'restorer',
+        restaurantName: formData.get("name") as string,
+        restaurantAddress : {
             street: formData.get("street") as string,
             city: formData.get("city") as string,
             zip: formData.get("zip") as string,
         },
-        description: formData.get("description") as string,
-      }
+        restaurantDescription: formData.get("description") as string,
+      };
 
-      registerRestorer(restorerData, restaurantData);
+      registerRestorer(restorerData);
     };
 
     return (
