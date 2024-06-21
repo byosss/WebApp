@@ -4,16 +4,18 @@ import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { Grid, Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { Home } from "@mui/icons-material";
 import { ContentPaste } from "@mui/icons-material";
 import { Person } from "@mui/icons-material";
 
+interface SimpleBottomNavigationProps {
+  value: number;
+  setValue: (value: number) => void;
+
+}
 // Définition et exportation du composant fonctionnel SimpleBottomNavigation.
-export default function SimpleBottomNavigation() {
-  // Définition d'un état local `value` pour suivre l'onglet sélectionné.
-  const [value, setValue] = React.useState(0);
-  const navigate = useNavigate();
+export default function SimpleBottomNavigation(props: Readonly<SimpleBottomNavigationProps>) {
+  const { value, setValue } = props;
 
   // Fonction pour obtenir le style de chaque action de navigation en bas,
   // couleur et soulignant l'élément actuellement sélectionné.
@@ -63,17 +65,14 @@ export default function SimpleBottomNavigation() {
             >
               {/* Actions de navigation avec étiquettes et styles conditionnels. */}
               <BottomNavigationAction
-                // onClick={() => navigate("/restaurant")}
                 icon={<Home />}
                 style={getStyle(0)}
               />
               <BottomNavigationAction
-                // onClick={() => navigate("/commandes")}
                 icon={<ContentPaste />}
                 style={getStyle(1)}
               />
               <BottomNavigationAction
-                // onClick={() => navigate("/profil")}
                 icon={<Person />}
                 style={getStyle(2)}
               />
