@@ -22,7 +22,7 @@ export default function Restaurant() {
     return(
         <React.Fragment>
             <Navbar />
-            {data !== undefined && 
+            {data !== undefined && data !== null &&
                 <React.Fragment>
                     <Box sx={{ my:3, mx:2, justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                         <img src={banniere} alt="Bannière restaurant" width={1600} /> 
@@ -32,17 +32,17 @@ export default function Restaurant() {
                             <Typography variant="h3">{data.name}</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Typography variant="body2" sx={{ mt:1 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </Typography>
+                            <Typography variant="body2" sx={{ mt:1 }}>{data.description}</Typography>
                             <Typography variant="body2" sx={{ mb: 3 }}>{data.address.street + " " + data.address.city + " " + data.address.zip}</Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h5" sx={{ my: 3 }}>Menu</Typography>
                         </Grid>
-                        <Menus />
+                        <Menus id={id}/>
                         <Grid item xs={12}>
                             <Typography variant="h5" sx={{ my: 3 }}>Articles</Typography>
                         </Grid>
-                        <Articles />
+                        <Articles id={id} />
                     </Grid>
                 </React.Fragment>
             }

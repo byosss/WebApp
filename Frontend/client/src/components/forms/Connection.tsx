@@ -24,6 +24,7 @@ export default function Connection() {
             const response = await axios.post('http://localhost/api/users/login', userData);
             console.log('reponse log:', response.data);
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userId', response.data.id);
             setUserId(response.data.id);
             setIsError(false); // Réinitialiser l'état de l'erreur en cas de succès
             navigate('/')
