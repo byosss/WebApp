@@ -26,7 +26,16 @@ const loginController = async (req: Request, res: Response) => {
         // Generate JWT token
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 
-        res.status(200).json({ msg: 'User logged successfully', id: user._id, token: token });
+        if (user.role === 'restorer') {
+            const restaurant = await mongoose.connection.collection('restaurants').findOne({ ownerId: user._id.toString() });
+            if (!restaurant) {
+                return res.status(401).json({ msg: 'Restorer have no restaurant' });
+            }
+            return res.status(200).json({ msg: 'User logged successfully', id: user._id, token: token, restaurantId: restaurant._id });
+        }
+        else {
+            return res.status(200).json({ msg: 'User logged successfully', id: user._id, token: token });
+        }
     } 
     catch (error) {
         res.status(500).json({ msg: 'Server Error', error: error });

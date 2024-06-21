@@ -170,6 +170,7 @@ export default function Register() {
                                 name="city"
                                 autoComplete="Ville"
                                 autoFocus
+                                sx={{ mr:1 }}
                         />
                         <TextField
                                 margin="normal"

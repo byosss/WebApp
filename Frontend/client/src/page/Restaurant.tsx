@@ -1,7 +1,7 @@
 import React from "react"
 import banniere from "../Assets/banniere-restaurant.jpg"
 import Navbar from "../components/nav/Navbar"
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Grid, TextField, Typography } from "@mui/material"
 import Footer from "../components/nav/Footer";
 import Menus from "../components/Menus";
 import Articles from "../components/Articles";
@@ -33,7 +33,7 @@ export default function Restaurant() {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="body2" sx={{ mt:1 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </Typography>
-                            <Typography variant="body2" sx={{ mb: 3 }}>{data.address}</Typography>
+                            <Typography variant="body2" sx={{ mb: 3 }}>{data.address.street + " " + data.address.city + " " + data.address.zip}</Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="h5" sx={{ my: 3 }}>Menu</Typography>

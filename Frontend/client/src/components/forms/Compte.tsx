@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, TextField, ThemeProvider, Typography, createTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useUser } from "../../context/UserContext";
@@ -9,6 +9,17 @@ interface CompteProps {
     onClose: (open: boolean) => void;
 }
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#007965',
+        },
+        secondary: {
+            main: '#00AF91',
+        },
+    },
+  });
+  
 export default function Compte(props: Readonly<CompteProps>) {
     const { open, onClose } = props;
     const [ modifier, setModifier ] = useState(true);
@@ -36,7 +47,7 @@ export default function Compte(props: Readonly<CompteProps>) {
             console.log('User updated successfully', response.data);
             modifierLeCompte();
         } catch (error) {
-            console.error('Registration failed', error);
+            console.error('User updated failed', error);
         }
     };
 
@@ -72,7 +83,7 @@ export default function Compte(props: Readonly<CompteProps>) {
     };
 
     return (
-        <React.Fragment>
+        <ThemeProvider theme={theme}>
             <Drawer anchor="right" open={open} onClose={onClose}>
             {data !== undefined &&
             <form onSubmit={handleSubmit}>
@@ -92,10 +103,10 @@ export default function Compte(props: Readonly<CompteProps>) {
                     <Grid item xs={12} sx={{ py: 3, textAlign: 'center' }}>
                         <Typography align="center" variant="h6">{data.firstName + ' ' + data.lastName}</Typography>
                         {modifier 
-                        ? <Button onClick={() => modifierLeCompte()}  size="small" variant="text">Modifier le compte</Button>
+                        ? <Button onClick={() => modifierLeCompte()}  size="small" variant="text" color="secondary">Modifier le compte</Button>
                         :<Box>
-                        <Button type="submit" size="small" variant="text">Confirmer la modification</Button>
-                        <Button onClick={() => {modifierLeCompte(); onClose(false);}}  size="small" variant="text">Annuler les modification</Button></Box>
+                        <Button type="submit" size="small" variant="text" color="secondary">Confirmer la modification</Button>
+                        <Button onClick={() => {modifierLeCompte(); onClose(false);}}  size="small" variant="text" color="secondary">Annuler les modification</Button></Box>
                         }
                     </Grid>
                     <Grid item xs={12} >
@@ -149,6 +160,6 @@ export default function Compte(props: Readonly<CompteProps>) {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </React.Fragment>
+        </ThemeProvider>
     );
 };

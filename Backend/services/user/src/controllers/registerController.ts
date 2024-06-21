@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
+import mongoose from 'mongoose';
+
 import ClientModel from '../models/clientModel';
 import CommModel from '../models/commModel';
 import RestorerModel from '../models/restorerModel';
@@ -43,16 +45,37 @@ const registerController = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(newUser.password, 10);
         newUser.password = hashedPassword;
 
-        // Save the user
-        await newUser.save();
+        if (req.body.role === 'restorer') {
+            
+            // créer un restaurant dans la collection restaurants
+            const newRestaurant = mongoose.connection.collection('restaurants').insertOne({ 
+                ownerId: newUser.id,
+                name: req.body.restaurantName,
+                address: req.body.restaurantAddress,
+                description: req.body.restaurantDescription
+            });
 
-        // Generate a JWT token
-        const token = jwt.sign({ id: newUser.id, role: newUser.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+            // récupérer l'id du restaurant créé
+            const restaurantId = (await newRestaurant).insertedId;
+            
+            await newUser.save();
 
-        // Reply successfully
-        res.status(201).json({ msg: 'User registered successfully', id: newUser.id, token: token }
-        );
-    } catch (error) {
+            const token = jwt.sign({ id: newUser.id, role: newUser.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+            res.status(201).json({ msg: 'User registered successfully', id: newUser.id, restaurantId: restaurantId, token: token });
+        }
+        else {
+
+            // Save the user
+            await newUser.save();
+
+            // Generate a JWT token
+            const token = jwt.sign({ id: newUser.id, role: newUser.role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+
+            // Reply successfully
+            res.status(201).json({ msg: 'User registered successfully', id: newUser.id, token: token });
+        }
+    } 
+    catch (error) {
         // If an error occurs during validation, search, or save, return an error response
         res.status(500).json({ msg: 'An error occurred while processing your request', error: error});
     }

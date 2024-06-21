@@ -1,16 +1,22 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import cors from 'cors';
 
-import orderRoute from './routes/ordersRoute';
+import ordersRoute from './routes/ordersRoute';
 
+require('dotenv').config();
 
 const app = express();
-
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
+// Connexion à la base de données MongoDb
+mongoose.connect(process.env.MONGO_URI as string)
+.then(() => console.log('Connexion à la base de données réussie'))
+.catch((error) => console.error('Erreur lors de la connexion à la base de données:', error));
 
 
-app.use('/users', orderRoute)
+app.use('/orders', ordersRoute);
 
 
 // Démarrer le serveur sur le port 5000
