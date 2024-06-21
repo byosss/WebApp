@@ -47,7 +47,7 @@ export default function Compte(props: Readonly<CompteProps>) {
             console.log('User updated successfully', response.data);
             modifierLeCompte();
         } catch (error) {
-            console.error('Registration failed', error);
+            console.error('User updated failed', error);
         }
     };
 

@@ -6,14 +6,13 @@ import Typography from "@mui/material/Typography"
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../api/axiosConfig";
 
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [street, setAdresse] = useState("");
+    const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [zip, setZip] = useState("");
     const [description, setDescription] = useState("");
@@ -22,10 +21,11 @@ export default function SignUp() {
     const registerRestorer = async (restorerData: { email: string; password: string; role: string; restaurantName: string; restaurantAddress: { street: string, city: string, zip: string }; restaurantDescription: string; }) => {
         
         try {
-            const response = await axios.post("http://localhost/api/users/Register", restorerData);
+            const response = await axios.post("http://localhost/api/users/register", restorerData);
+            console.log('User registered successfully', response.data);
             localStorage.setItem("token", response.data.token);
-            localStorage.setItem("idResto", response.data.id);
-            navigate('/Restaurant');
+            localStorage.setItem("idResto", response.data.restaurantId);
+            navigate('/Home');
 
         } catch (error) {
             console.error('Login failed', error);
@@ -87,7 +87,7 @@ export default function SignUp() {
                     required
                     sx={{ width: "450px", height: "50px" }}
                     label="Adresse"
-                    onChange={(e) => setAdresse(e.target.value)}
+                    onChange={(e) => setStreet(e.target.value)}
                     value={street}
                     name="street"
                     autoComplete="street"
