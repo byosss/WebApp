@@ -24,7 +24,7 @@ export default function Compte(props: Readonly<CompteProps>) {
     const { open, onClose } = props;
     const [ modifier, setModifier ] = useState(true);
     const [dialDelete, setDialDelete] = useState(false);
-    const { userId } = useUser();
+    const userId = localStorage.getItem('userId');
 
     const handleCloseDial = (open: boolean) => () => {
         setDialDelete(open);
@@ -76,6 +76,7 @@ export default function Compte(props: Readonly<CompteProps>) {
             const response = await axiosInstance.delete(`/api/users/${userId}`);
             console.log('User deleted successfully', response.data);
             localStorage.removeItem('token');
+            localStorage.removeItem('userId');
             onClose(true);
         } catch (error) {
             console.error('Delete failed', error);
@@ -131,7 +132,7 @@ export default function Compte(props: Readonly<CompteProps>) {
                     </Grid>
                    
                     <Grid item xs={12} sx={{ mt: 10 }}>
-                        <Button sx={{ my: 2}} onClick={() => {localStorage.removeItem('token'); onClose(true);} } fullWidth variant="contained" color="primary">Déconnexion</Button>
+                        <Button sx={{ my: 2}} onClick={() => {localStorage.removeItem('token');localStorage.removeItem('userId'); onClose(true);} } fullWidth variant="contained" color="primary">Déconnexion</Button>
                         <Button fullWidth onClick={handleCloseDial(true)} variant="outlined" color="error">Supprimer le compte</Button>
                     </Grid>
                 </Grid> 
