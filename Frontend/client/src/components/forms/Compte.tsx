@@ -83,8 +83,7 @@ export default function Compte(props: Readonly<CompteProps>) {
     };
 
     return (
-        <React.Fragment>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
             <Drawer anchor="right" open={open} onClose={onClose}>
             {data !== undefined &&
             <form onSubmit={handleSubmit}>
@@ -161,7 +160,6 @@ export default function Compte(props: Readonly<CompteProps>) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            </ThemeProvider>
-        </React.Fragment>
+        </ThemeProvider>
     );
 };

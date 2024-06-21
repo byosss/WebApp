@@ -17,8 +17,10 @@ export default function Home() {
               return <Restaurant />;
           case 1:
               return <Commandes />;
-          default:
+          case 2:
               return <Profil />;
+          default:
+              return <Restaurant />;
       }
   };
   
