@@ -25,7 +25,6 @@ export default function Restaurant() {
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
-    const idResto = localStorage.getItem('idResto');
     const [idItem, setIdItem] = useState('');
 
     const fetchItems = async () => {
@@ -34,7 +33,15 @@ export default function Restaurant() {
         return data;
     };
   
-    const { data, refetch } = useQuery('user', fetchItems);
+    const { data, refetch } = useQuery('items', fetchItems);
+
+    const fetchMenus = async () => {
+        const { data } = await axios.get(`http://localhost/api/restaurants/${restaurantId}/menus`);
+        console.log(data);
+        return data;
+    };
+  
+    const dataMenu = useQuery('menus', fetchMenus);
 
     const handleOpenForm = () => {
         setOpenForm(true);
@@ -55,6 +62,10 @@ export default function Restaurant() {
         refetch();
     }, [openForm, openDialUpdate]);
 
+    useEffect(() => {
+        dataMenu.refetch();
+    }, [openFormMenu]);
+
     const onEdit = (item: any) => {
         setName(item.name);
         setDescription(item.description);
@@ -73,14 +84,25 @@ export default function Restaurant() {
             console.error('Item delete failed', error);
         }
     }
+
+    const deleteMenu = async (menuId: string) => {
+        try {
+            const response = await axiosInstance.delete(`/api/restaurants/${restaurantId}/menus/${menuId}`);
+            console.log('Menu deleted successfully', response.data);
+            dataMenu.refetch();
+        } catch (error) {
+            console.error('Menu delete failed', error);
+        }
+    }
+
     const dialClose = () => {
         setOpenDialUpdate(false);
     }
-
+    console.log(dataMenu.data);
     const updateItems = async (itemsData: { name: string; description: string; type: string; price: string;}) => {
         try {
             console.log(itemsData);
-            const response = await axiosInstance.patch(`/api/restaurants/${idResto}/items/${idItem}`, itemsData);
+            const response = await axiosInstance.patch(`/api/restaurants/${restaurantId}/items/${idItem}`, itemsData);
             console.log('Item add successfully', response.data);
             dialClose();
 
@@ -153,9 +175,29 @@ export default function Restaurant() {
                     <Grid item xs={12}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold'}}>Menu</Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        
-                    </Grid>
+                    {dataMenu.data.map((menu: any) => (
+                        <Grid key={menu._id} item>
+                            <ListItem
+                                secondaryAction={
+                                    <Box>
+                                        <Tooltip title="Modifier" placement="top">
+                                            <IconButton edge="end" aria-label="edit">
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Supprimer" placement="top">
+                                            <IconButton onClick={() => deleteMenu(menu._id)} edge="end" aria-label="delete">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Box>
+                                }
+                                >
+                                <ListItemText primary={menu.name} secondary={menu.description}  />
+                            </ListItem>
+                            <Divider />
+                        </Grid>
+                    ))}
                     <Grid item sx={{ ml: 1, my: 5, display: 'flex', justifyContent: 'center'}}>
                         <Button onClick={() => handleOpenFormMenu()} variant="contained" style={{backgroundColor: "#007965"}}>
                             Ajouter un Menu

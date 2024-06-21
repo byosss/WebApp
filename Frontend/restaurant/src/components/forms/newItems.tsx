@@ -40,7 +40,6 @@ export default function NewItems(props: Readonly<NewItemsProps>) {
       };
         
       const handleClose = () => {
-        setOpen(false);
         setName('');
         setDescription('');
         setType('');
