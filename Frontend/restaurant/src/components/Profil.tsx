@@ -16,35 +16,33 @@ const theme = createTheme({
 });
 
 export function Profil() {
-  const [ modifier, setModifier ] = useState(true);
+  const [modifier, setModifier] = useState(true);
   const [dialDelete, setDialDelete] = useState(false);
   const restaurantId = localStorage.getItem('idResto');
   const navigate = useNavigate();
 
   const handleCloseDial = (open: boolean) => () => {
       setDialDelete(open);
-    };
+  };
 
   const fetchUser = async () => {
-      console.log(restaurantId);
       const { data } = await axiosInstance.get(`/api/restaurants/${restaurantId}`);
-      console.log(data);
       return data;
   }
 
-  const { data, refetch } = useQuery('user', fetchUser);
+  const { data, refetch, isSuccess } = useQuery('user', fetchUser);
 
   const modifierLeCompte = () => {
       setModifier(!modifier);
   }
-  
+
   const updateUser = async (restaurantData: { description: string; address: { street: string; city: string; zip: string }; }) => {
       try {
           const response = await axiosInstance.patch(`/api/restaurants/${restaurantId}`, restaurantData);
           console.log('Restaurant updated successfully', response.data);
           modifierLeCompte();
       } catch (error) {
-          console.error('Restaurant updated  failed', error);
+          console.error('Restaurant update failed', error);
       }
   };
 
@@ -73,7 +71,7 @@ export function Profil() {
           console.log('Restaurant deleted successfully', response.data);
           localStorage.removeItem('token');
           localStorage.removeItem('idResto');
-          navigate('/Login')
+          navigate('/')
       } catch (error) {
           console.error('Delete failed', error);
       }
@@ -81,6 +79,7 @@ export function Profil() {
 
   return (
     <ThemeProvider theme={theme}>
+      {isSuccess && data &&
       <Box sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb:3}}>
                 <img src={'/logoCE100.png'} alt="Logo" height={"100px"} width={"100px"} />
@@ -89,7 +88,7 @@ export function Profil() {
             <Box sx={{ mb: 3}}>
                 <Typography variant="h4">Restaurant</Typography>
             </Box>
-      {data !== undefined && data!== null &&
+      {data.address !== undefined && data !== null ?
       <form onSubmit={handleSubmit}>
           <Grid container
               spacing={2}
@@ -107,19 +106,15 @@ export function Profil() {
               <Grid item xs={12} sx={{ py: 3, textAlign: 'center' }}>
                   <Typography align="center" variant="h6">{data.name}</Typography>
                   {modifier 
-                  ? <Button onClick={() => modifierLeCompte()}  size="small" variant="text" color="secondary">Modifier le compte</Button>
+                  ? <Button onClick={() => modifierLeCompte()} size="small" variant="text" color="secondary">Modifier le compte</Button>
                   :<Box>
                   <Button type="submit" size="small" variant="text" color="secondary">Confirmer la modification</Button>
-                  <Button onClick={() => modifierLeCompte()}  size="small" variant="text" color="secondary">Annuler les modification</Button></Box>
+                  <Button onClick={() => modifierLeCompte()} size="small" variant="text" color="secondary">Annuler les modification</Button></Box>
                   }
               </Grid>
               <Grid item xs={12}>
-                  <Typography variant="h6">Adresse mail</Typography>
-                  <TextField fullWidth variant="standard" disabled defaultValue={data.email}/>
-              </Grid>
-              <Grid item xs={12}>
                   <Typography variant="h6">Description du restaurant</Typography>
-                  <TextField fullWidth name="description" variant="standard" disabled={modifier}  defaultValue={data.description}/>
+                  <TextField fullWidth name="description" variant="standard" disabled={modifier} defaultValue={data.description}/>
               </Grid>
               <Grid item xs={12}>
                   <Typography variant="h6">Adresse de livraison</Typography>
@@ -135,12 +130,12 @@ export function Profil() {
               </Grid>
             
               <Grid item xs={12} sx={{ mt: 5 }}>
-                  <Button sx={{ my: 2}} onClick={() => {localStorage.removeItem('token'); localStorage.removeItem('idResto'); navigate('/Login');} } fullWidth variant="contained" color="primary">Déconnexion</Button>
+                  <Button sx={{ my: 2}} onClick={() => {localStorage.removeItem('token'); localStorage.removeItem('idResto'); navigate('/');}} fullWidth variant="contained" color="primary">Déconnexion</Button>
                   <Button fullWidth onClick={handleCloseDial(true)} variant="outlined" color="error">Supprimer le compte</Button>
               </Grid>
           </Grid> 
       </form>
-      }
+      : <Typography variant="h6">Aucune valeur</Typography>}
       
       <Dialog
           open={dialDelete}
@@ -164,7 +159,7 @@ export function Profil() {
           </DialogActions>
       </Dialog>
     </Box>
+  }
   </ThemeProvider>
   )
 }
-
