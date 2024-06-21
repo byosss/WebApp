@@ -14,9 +14,9 @@ type User = {
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
-  { field: "name", headerName: "Name", width: 150 },
+  { field: "name", headerName: "Nom", width: 150 },
   { field: "email", headerName: "Email", width: 250 },
-  { field: "phone", headerName: "Phone", width: 150 },
+  { field: "phone", headerName: "Téléphone", width: 150 },
   { field: "state", headerName: "État", width: 100 },
   { field: "role", headerName: "Role", width: 100 },
 ];
@@ -164,7 +164,7 @@ const UserTable = () => {
         sx={{ width: 1150 }}
       />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '16px' }}>
-        <Button variant="contained" color="warning" size="large" style={{ marginRight: '16px', width: '200px' }}>
+        <Button variant="contained" color="warning" size="large" style={{ marginRight: '16px', width: '200px' }}  onClick={handleDelete} disabled={selectedUsers.length === 0}>
           Suspendre
         </Button>
         <Button variant="outlined" color="error" size="large" style={{ width: '200px' }} onClick={handleDelete} disabled={selectedUsers.length === 0}>
