@@ -14,11 +14,13 @@ import { useEffect, useState } from "react";
 import NewItems from "./forms/newItems";
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Tooltip } from "@mui/material";
 import axiosInstance from "../api/axiosConfig";
+import NewMenu from "./forms/newMenu";
 
 export default function Restaurant() {
     const restaurantId = localStorage.getItem('idResto');
     const [openForm, setOpenForm] = useState(false);
     const [openDialUpdate, setOpenDialUpdate] = useState(false);
+    const [openFormMenu, setOpenFormMenu] = useState(false);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
@@ -40,6 +42,14 @@ export default function Restaurant() {
     const handleCloseForm = () => {
         setOpenForm(false);
     }
+    
+    const handleOpenFormMenu = () => {
+        setOpenFormMenu(true);
+    }
+    const handleCloseFormMenu = () => {
+        setOpenFormMenu(false);
+    }
+    
     
     useEffect(() => {
         refetch();
@@ -140,11 +150,20 @@ export default function Restaurant() {
                 </Grid>
                 <Divider orientation="vertical" flexItem sx={{ mx: 5}} />
                 <Grid item xs={5}>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold'}}>Menu</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        
+                    </Grid>
+                    <Grid item sx={{ ml: 1, my: 5, display: 'flex', justifyContent: 'center'}}>
+                        <Button onClick={() => handleOpenFormMenu()} variant="contained" style={{backgroundColor: "#007965"}}>
+                            Ajouter un Menu
+                        </Button>
                     </Grid>
                 </Grid>
 
+                <NewMenu open={openFormMenu} setOpen={handleCloseFormMenu} />
                 <NewItems open={openForm} setOpen={handleCloseForm} />
             </Grid>
             : <Typography variant="h6">Aucun article</Typography>}
